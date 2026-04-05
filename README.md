@@ -1,112 +1,244 @@
-# 🌟 AuroraAI
+# 📚 AuroraDocs-Web
 
-*Your Intelligent Companion for Learning, Productivity, and Creativity*
-
----
-
-## 🚀 About AuroraAI
-
-AuroraAI is a cutting-edge AI-powered assistant designed to revolutionize how you interact with technology. By leveraging advanced natural language processing and machine learning, AuroraAI serves as your personal companion for learning, productivity enhancement, creative endeavors, and complex problem-solving.
-
-Experience the future of human-AI collaboration with an intuitive interface that adapts to your unique needs and communication style.
+*AI-Powered Documentation Generator for Modern Development*
 
 ---
 
-## ✨ Key Features
+## 🚀 About AuroraDocs-Web
 
-### 🧠 **Intelligent Learning**
-- Personalized knowledge acquisition and skill development
-- Adaptive learning paths based on your progress
-- Real-time explanations and concept breakdowns
-- Multi-domain expertise (STEM, humanities, arts, and more)
+AuroraDocs-Web is a cutting-edge web-based platform designed to revolutionize how developers create project documentation, README files, and AI prompts. Inspired by tools like Windsurf, this browser-based solution leverages advanced AI to generate comprehensive, professional documentation in seconds.
 
-### ⚡ **Productivity Enhancement**
-- Smart task management and prioritization
-- Automated workflow optimization
-- Context-aware scheduling and reminders
-- Integration with popular productivity tools
+Transform your codebase into beautifully structured documentation with an intuitive interface that adapts to your project's unique architecture and requirements.
 
-### 🎨 **Creative Partner**
-- Brainstorming and idea generation
-- Content creation and editing assistance
-- Design suggestions and feedback
-- Multi-modal creative collaboration
+---
 
-### 🔧 **Problem-Solving Engine**
-- Complex analytical reasoning
-- Step-by-step solution guidance
-- Code generation and debugging
-- Data analysis and visualization
+## 📊 Current Implementation Status
+
+### ✅ **Frontend** (Planning Phase)
+- [ ] React.js application setup
+- [ ] TypeScript configuration
+- [ ] Tailwind CSS styling
+- [ ] Component library integration
+- [ ] Real-time preview interface
+- [ ] Markdown editor with syntax highlighting
+
+### ✅ **Backend** (Architecture Phase)
+- [x] Spring Boot 3.2.5 project structure
+- [x] Maven configuration with Java 17
+- [x] REST API architecture skeleton
+- [x] Entity-Repository-Service-Controller pattern
+- [x] H2 Database for development
+- [ ] API endpoint implementation
+- [ ] Authentication & Authorization
+- [ ] File upload/processing
+
+### ⏳ **AI Integration** (Planning Phase)
+- [ ] OpenAI GPT-4 integration
+- [ ] LangChain framework setup
+- [ ] Prompt engineering templates
+- [ ] Context-aware generation
+- [ ] Custom model fine-tuning
+- [ ] Vector database for RAG
+
+### ⏳ **Database** (Design Phase)
+- [ ] PostgreSQL for production
+- [ ] Flyway migrations
+- [ ] Redis caching layer
+- [ ] Document storage schema
+- [ ] User project management
+- [ ] Generation history tracking
+
+---
+
+## 🏗️ Architecture Diagram
+
+```
+AuroraDocs-Web/
+├── 📂 client/                    # Frontend React Application
+│   ├── 📂 src/
+│   │   ├── 📂 components/        # UI Components
+│   │   │   ├── 📄 Editor.tsx     # Markdown editor
+│   │   │   ├── 📄 Preview.tsx    # Live preview
+│   │   │   ├── 📄 Generator.tsx  # AI generation panel
+│   │   │   └── 📄 Templates.tsx  # Template selector
+│   │   ├── 📂 pages/            # Application pages
+│   │   │   ├── � Dashboard.tsx
+│   │   │   ├── 📄 Generator.tsx
+│   │   │   └── � History.tsx
+│   │   ├── 📂 services/         # API services
+│   │   │   └── � api.ts        # Axios/Fetch wrapper
+│   │   ├── 📂 hooks/            # Custom React hooks
+│   │   └── 📂 utils/            # Utility functions
+│   └── 📄 package.json
+├── 📂 backend/                   # Backend Spring Boot Application
+│   ├── 📂 src/
+│   │   ├── 📂 main/
+│   │   │   ├── 📂 java/
+│   │   │   │   └── 📂 com/auroradocs/
+│   │   │   │       ├── 📄 DocsApplication.java
+│   │   │   │       ├── 📂 controller/
+│   │   │   │       │   ├── 📄 DocumentationController.java
+│   │   │   │       │   ├── � GenerationController.java
+│   │   │   │       │   └── 📄 TemplateController.java
+│   │   │   │       ├── 📂 service/
+│   │   │   │       │   ├── 📄 DocumentationService.java
+│   │   │   │       │   ├── 📄 GenerationService.java
+│   │   │   │       │   └── 📄 AIService.java
+│   │   │   │       ├── 📂 repository/
+│   │   │   │       │   ├── 📄 DocumentationRepository.java
+│   │   │   │       │   └── 📄 TemplateRepository.java
+│   │   │   │       ├── 📂 entity/
+│   │   │   │       │   ├── 📄 Documentation.java
+│   │   │   │       │   ├── 📄 Template.java
+│   │   │   │       │   └── 📄 GenerationHistory.java
+│   │   │   │       ├── 📂 dto/
+│   │   │   │       │   ├── 📄 GenerationRequest.java
+│   │   │   │       │   └── 📄 GenerationResponse.java
+│   │   │   │       ├── 📂 config/
+│   │   │   │       │   ├── 📄 AIConfig.java
+│   │   │   │       │   └── 📄 WebConfig.java
+│   │   │   │       └── 📂 exception/
+│   │   │   │           └── 📄 GenerationException.java
+│   │   │   └── 📂 resources/
+│   │   │       ├── 📄 application.yml
+│   │   │       └── 📂 db/migration/
+│   │   └── 📂 test/
+│   └── 📄 pom.xml
+├── 📂 ai/                        # AI/ML Components
+│   ├── 📂 prompts/               # Prompt templates
+│   ├── 📂 models/                # Custom models
+│   └── 📂 pipelines/             # Processing pipelines
+└── � docker-compose.yml
+```
+
+---
+
+## ✨ Features
+
+### 🎯 **MVP Features (Current Focus)**
+- [x] Project architecture setup
+- [x] Spring Boot backend skeleton
+- [ ] Code repository analysis
+- [ ] Automatic README generation
+- [ ] Template-based documentation
+- [ ] Markdown export functionality
+- [ ] Basic AI integration
+- [ ] User authentication
+- [ ] Project history tracking
+
+### � **Planned Features**
+- [ ] Multi-format documentation (MD, HTML, PDF)
+- [ ] Custom prompt engineering
+- [ ] Integration with GitHub/GitLab
+- [ ] Real-time collaboration
+- [ ] Version control for documentation
+- [ ] Analytics and insights
+- [ ] API for third-party integrations
+- [ ] Mobile-responsive design
+- [ ] Dark mode support
+- [ ] Multi-language support
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### **Frontend**
-- **React.js** - Modern, component-based UI framework
-- **TypeScript** - Type-safe JavaScript development
-- **Tailwind CSS** - Utility-first CSS framework
-- **Framer Motion** - Smooth animations and interactions
-- **Vite** - Fast development build tool
+- **React.js 18** - Modern UI framework
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first styling
+- **Monaco Editor** - Code editing with syntax highlighting
+- **React Markdown** - Markdown rendering
+- **Vite** - Fast build tool
+- **Axios** - HTTP client
 
 ### **Backend**
-- **Spring Boot** - Java-based application framework
-- **Java 17+** - Modern Java development
-- **PostgreSQL** - Robust relational database
-- **Redis** - High-performance caching layer
-- **Maven** - Dependency management and build tool
-- **Docker** - Containerization and deployment
+- **Spring Boot 3.2.5** - Java application framework
+- **Java 17** - Modern Java development
+- **Spring Data JPA** - Database abstraction
+- **Spring Security** - Authentication & authorization
+- **H2 Database** - Development database
+- **PostgreSQL** - Production database
+- **Maven** - Dependency management
+- **Docker** - Containerization
 
 ### **AI Integration**
-- **OpenAI GPT-4** - Advanced language model
-- **LangChain** - AI application framework
-- **Vector Database** - Efficient similarity search
-- **Custom ML Models** - Specialized task optimization
+- **OpenAI GPT-4** - Primary language model
+- **LangChain** - AI framework
+- **Vector Database** - Context search (Pinecone/Weaviate)
+- **Custom Prompts** - Specialized templates
+
+### **DevOps**
+- **Docker Compose** - Local development
+- **GitHub Actions** - CI/CD pipeline
+- **Nginx** - Reverse proxy
+- **Redis** - Caching layer
 
 ---
 
-## 📦 Installation
+## 🗺️ Roadmap
+
+### 🚀 **Short-term** (Q2 2024)
+- [ ] Complete backend API implementation
+- [ ] Integrate OpenAI API
+- [ ] Build frontend React application
+- [ ] Implement authentication system
+- [ ] Create documentation templates
+- [ ] Add basic generation features
+
+### 🎯 **Mid-term** (Q3 2024)
+- [ ] GitHub/GitLab integration
+- [ ] Advanced prompt engineering
+- [ ] Real-time collaboration
+- [ ] Version control for docs
+- [ ] Performance optimization
+- [ ] Mobile responsive design
+
+### 🔮 **Long-term** (Q4 2024+)
+- [ ] Multi-language support
+- [ ] Enterprise features
+- [ ] API marketplace
+- [ ] Custom model training
+- [ ] Analytics dashboard
+- [ ] Global deployment
+
+---
+
+## 📦 Installation & Setup
 
 ### Prerequisites
 - Java 17+
 - Maven 3.8+
-- Node.js 18+ (for frontend)
-- PostgreSQL 14+
-- Redis 6+
+- Node.js 18+
+- PostgreSQL 14+ (production)
 - Docker (optional)
+- OpenAI API Key
 
 ### Quick Start
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/AuroraAI.git
-cd AuroraAI
+git clone https://github.com/your-org/AuroraDocs-Web.git
+cd AuroraDocs-Web
 
-# Install backend dependencies (Java/Maven)
-cd server
-mvn clean install
-
-# Install frontend dependencies
-cd ../client
-npm install
-
-# Set up environment variables
+# Backend Setup
+cd backend
 cp .env.example .env
-# Edit .env with your configuration
-
-# Initialize database
-mvn flyway:migrate
-
-# Start backend server
-cd ../server
+# Edit .env with your OpenAI API key and database credentials
+mvn clean install
 mvn spring-boot:run
 
-# Start frontend development server (in separate terminal)
-cd ../client
+# Frontend Setup (in separate terminal)
+cd client
+npm install
 npm run dev
+
+# Access the application
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:8080
+# H2 Console: http://localhost:8080/h2-console
 ```
 
-### Docker Installation
+### Docker Setup
 
 ```bash
 # Build and run with Docker Compose
@@ -118,113 +250,73 @@ http://localhost:3000
 
 ---
 
-## 🎯 Usage Examples
+## 💡 Usage Examples
 
-### Basic Interaction
-```java
-// Initialize AuroraAI client
-AuroraAIClient aurora = new AuroraAIClientBuilder()
-    .apiKey(System.getenv("AURORA_API_KEY"))
-    .mode(AiMode.PRODUCTIVITY)
-    .build();
+### API Endpoints
 
-// Simple query
-ChatResponse response = aurora.chat("Help me organize my week");
-System.out.println(response.getSuggestions());
+#### Generate Documentation
+```bash
+POST /api/generate/documentation
+Content-Type: application/json
+
+{
+  "repositoryUrl": "https://github.com/user/project",
+  "template": "standard-readme",
+  "options": {
+    "includeArchitecture": true,
+    "includeApiDocs": true,
+    "includeExamples": true
+  }
+}
 ```
 
-### Learning Mode
-```java
-// Set up learning session
-LearningSession session = aurora.createLearningSession()
-    .topic("Machine Learning")
-    .level(Level.INTERMEDIATE)
-    .goals(List.of("understand neural networks", "build a model"))
-    .build();
-
-// Get personalized learning path
-LearningPath path = session.generatePath();
+#### Response
+```json
+{
+  "id": "doc-123",
+  "content": "# Project Title\n\n## Description...",
+  "format": "markdown",
+  "generatedAt": "2024-04-05T10:00:00Z",
+  "wordCount": 1250
+}
 ```
 
-### Creative Collaboration
-```java
-// Brainstorming session
-BrainstormRequest request = BrainstormRequest.builder()
-    .prompt("Innovative mobile app ideas")
-    .constraints(List.of("minimal budget", "2-month timeline"))
-    .category(Category.PRODUCTIVITY)
-    .build();
-
-List<Idea> ideas = aurora.brainstorm(request);
+#### Get Generation History
+```bash
+GET /api/generation/history
+Authorization: Bearer <token>
 ```
 
----
+#### Create Custom Template
+```bash
+POST /api/templates
+Content-Type: application/json
 
-## 📁 Project Structure
-
-```
-AuroraAI/
-├── 📂 client/                 # Frontend React application
-│   ├── 📂 src/
-│   │   ├── 📂 components/     # Reusable UI components
-│   │   ├── 📂 pages/         # Application pages
-│   │   ├── 📂 hooks/         # Custom React hooks
-│   │   ├── 📂 utils/         # Utility functions
-│   │   └── 📂 styles/        # Global styles and themes
-│   └── 📄 package.json
-├── 📂 server/                # Backend Spring Boot application
-│   ├── 📂 src/
-│   │   ├── 📂 main/
-│   │   │   ├── 📂 java/
-│   │   │   │   └── 📂 com/auroraa/
-│   │   │   │       ├── 📂 controller/   # REST API controllers
-│   │   │   │       ├── 📂 entity/        # JPA entity models
-│   │   │   │       ├── 📂 service/      # Business logic services
-│   │   │   │       ├── 📂 repository/   # JPA repositories
-│   │   │   │       ├── 📂 utility/      # Utility classes and helpers
-│   │   │   │       ├── 📂 dto/          # Data transfer objects
-│   │   │   │       ├── 📂 config/       # Configuration classes
-│   │   │   │       └── 📂 exception/    # Exception handlers
-│   │   │   └── 📂 resources/
-│   │   │       ├── 📄 application.yml   # Spring Boot config
-│   │   │       └── 📂 db/migration/     # Flyway migrations
-│   │   └── 📂 test/           # Unit and integration tests
-│   └── 📄 pom.xml             # Maven configuration
-├── 📂 ai/                    # AI/ML components
-│   ├── 📂 models/           # Custom ML models
-│   ├── 📂 pipelines/        # Data processing pipelines
-│   └── 📂 integrations/     # Third-party AI integrations
-├── 📂 database/              # Database schemas and migrations
-├── 📂 docs/                 # Documentation and guides
-├── 📂 tests/                # Test suites
-├── 📂 scripts/              # Build and deployment scripts
-└── 📄 docker-compose.yml    # Container orchestration
+{
+  "name": "custom-tech-doc",
+  "description": "Technical documentation template",
+  "sections": [
+    "Overview",
+    "Architecture",
+    "API Reference",
+    "Deployment Guide"
+  ]
+}
 ```
 
----
+### Frontend Usage
 
-## 🗺️ Roadmap
+```typescript
+// Generate documentation from code
+import { generateDocs } from './services/api';
 
-### 🚀 **Phase 1: Foundation** (Q2 2024)
-- [ ] Core AI integration
-- [ ] Basic chat interface
-- [ ] User authentication
-- [ ] Mobile responsive design
-- [ ] Performance optimization
+const result = await generateDocs({
+  repositoryUrl: 'https://github.com/user/project',
+  template: 'standard-readme'
+});
 
-### 🎯 **Phase 2: Enhancement** (Q3 2024)
-- [ ] Advanced learning analytics
-- [ ] Voice interaction support
-- [ ] Multi-language capabilities
-- [ ] Integration marketplace
-- [ ] Team collaboration features
-
-### 🔮 **Phase 3: Expansion** (Q4 2024)
-- [ ] Desktop application
-- [ ] API for third-party developers
-- [ ] Enterprise features
-- [ ] Advanced customization
-- [ ] Global deployment
+console.log(result.content);
+```
 
 ---
 
@@ -240,38 +332,19 @@ We welcome contributions from the community! Here's how you can help:
 5. Open a Pull Request
 
 ### Development Guidelines
-- Follow the existing code style and conventions
+- Follow existing code style and conventions
 - Write comprehensive tests for new features
 - Update documentation as needed
-- Ensure all CI checks pass before submitting
+- Ensure all CI checks pass
+- Use meaningful commit messages
 
 ### Areas for Contribution
 - 🐛 Bug fixes and improvements
-- ✨ New features and enhancements
+- ✨ New documentation templates
+- 🎨 UI/UX enhancements
+- 🧪 Test coverage
 - 📚 Documentation and guides
-- 🎨 UI/UX improvements
-- 🧪 Test coverage and quality
+- � Internationalization
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-```
-MIT License
-
-Copyright (c) 2024 AuroraAI Team
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-```
-
----
