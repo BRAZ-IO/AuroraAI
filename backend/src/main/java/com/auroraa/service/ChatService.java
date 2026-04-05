@@ -2,9 +2,9 @@ package com.auroraa.service;
 
 import com.auroraa.dto.ChatRequest;
 import com.auroraa.dto.ChatResponse;
-import com.auroraa.entity.ChatMessage;
+import com.auroraa.entity.ChatHistory;
 import com.auroraa.exception.ValidationException;
-import com.auroraa.repository.ChatMessageRepository;
+import com.auroraa.repository.ChatHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ import java.util.UUID;
 public class ChatService implements ChatServiceInterface {
     
     @Autowired
-    private ChatMessageRepository chatMessageRepository;
+    private ChatHistoryRepository chatHistoryRepository;
     
     @Override
     public ChatResponse processMessage(ChatRequest request) {
@@ -27,13 +27,13 @@ public class ChatService implements ChatServiceInterface {
         String codeSnippet = generateCodeSnippet(request.getMessage());
         List<String> relatedTopics = generateRelatedTopics(request.getMessage());
         
-        ChatMessage chatMessage = new ChatMessage(
+        ChatHistory chatMessage = new ChatHistory(
             request.getUserId(),
             request.getMessage(),
             response
         );
         
-        chatMessageRepository.save(chatMessage);
+        chatHistoryRepository.save(chatMessage);
         
         ChatResponse chatResponse = new ChatResponse(
             UUID.randomUUID().toString(),
@@ -49,15 +49,15 @@ public class ChatService implements ChatServiceInterface {
     }
     
     @Override
-    public List<ChatMessage> getChatHistory(String userId) {
+    public List<ChatHistory> getChatHistory(String userId) {
         if (userId == null || userId.trim().isEmpty()) {
             throw new ValidationException("User ID cannot be null or empty");
         }
-        return chatMessageRepository.findByUserIdOrderByTimestampDesc(userId);
+        return chatHistoryRepository.findByUserIdOrderByTimestampDesc(userId);
     }
     
     @Override
-    public List<ChatMessage> getRecentMessages(String userId, int limit) {
+    public List<ChatHistory> getRecentMessages(String userId, int limit) {
         if (userId == null || userId.trim().isEmpty()) {
             throw new ValidationException("User ID cannot be null or empty");
         }
@@ -65,12 +65,12 @@ public class ChatService implements ChatServiceInterface {
             throw new ValidationException("Limit must be between 1 and 100");
         }
         
-        List<ChatMessage> messages = chatMessageRepository.findRecentMessagesByUser(userId);
+        List<ChatHistory> messages = chatHistoryRepository.findRecentMessagesByUser(userId);
         return messages.stream().limit(limit).toList();
     }
     
     @Override
-    public ChatMessage saveMessage(ChatMessage message) {
+    public ChatHistory saveMessage(ChatHistory message) {
         if (message == null) {
             throw new ValidationException("Chat message cannot be null");
         }
@@ -81,7 +81,7 @@ public class ChatService implements ChatServiceInterface {
             throw new ValidationException("Message cannot be null or empty");
         }
         
-        return chatMessageRepository.save(message);
+        return chatHistoryRepository.save(message);
     }
     
     @Override
@@ -94,7 +94,7 @@ public class ChatService implements ChatServiceInterface {
         }
         
         LocalDateTime cutoffDate = LocalDateTime.now().minusDays(daysToKeep);
-        chatMessageRepository.deleteByUserIdAndTimestampBefore(userId, cutoffDate);
+        chatHistoryRepository.deleteByUserIdAndTimestampBefore(userId, cutoffDate);
     }
     
     @Override
@@ -104,7 +104,7 @@ public class ChatService implements ChatServiceInterface {
         }
         
         LocalDateTime since = LocalDateTime.now().minusDays(30);
-        return chatMessageRepository.countMessagesByUserSince(userId, since);
+        return chatHistoryRepository.countMessagesByUserSince(userId, since);
     }
     
     private void validateChatRequest(ChatRequest request) {
