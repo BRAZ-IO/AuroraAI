@@ -1,29 +1,41 @@
 package com.auroraa.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "knowledge_base")
 public class KnowledgeBase {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, nullable = false)
     private String id;
     
-    @Column(nullable = false, unique = true)
+    @Column(name = "topic", nullable = false, unique = true, length = 200)
+    @NotBlank(message = "Topic cannot be blank")
+    @Size(max = 200, message = "Topic must not exceed 200 characters")
     private String topic;
     
-    @Column(nullable = false, length = 2000)
+    @Column(name = "response", nullable = false, length = 2000, columnDefinition = "TEXT")
+    @NotBlank(message = "Response cannot be blank")
+    @Size(max = 2000, message = "Response must not exceed 2000 characters")
     private String response;
     
-    @Column(nullable = false)
+    @Column(name = "category", nullable = false, length = 100)
+    @NotBlank(message = "Category cannot be blank")
+    @Size(max = 100, message = "Category must not exceed 100 characters")
     private String category;
     
-    @Column(nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
     
-    public KnowledgeBase() {}
+    public KnowledgeBase() {
+        this.id = UUID.randomUUID().toString();
+    }
     
     public KnowledgeBase(String topic, String response, String category) {
         this.topic = topic;

@@ -10,6 +10,6 @@ class AppTest {
     @Test
     void contextLoads() {
         // Test that Spring context loads successfully
-        assertTrue("Spring context should load", true);
+        assertTrue(true, "Spring context should load");
     }
 }
