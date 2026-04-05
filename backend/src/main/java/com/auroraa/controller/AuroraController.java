@@ -29,44 +29,24 @@ public class AuroraController {
     }
     
     @PostMapping("/chat")
-    public ResponseEntity<ChatResponse> chat(@RequestBody ChatRequest request) {
-        try {
-            ChatResponse response = chatService.processMessage(request);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ChatResponse chat(@RequestBody ChatRequest request) {
+        return chatService.processMessage(request);
     }
     
     @GetMapping("/chat/history/{userId}")
-    public ResponseEntity<List<ChatMessage>> getChatHistory(@PathVariable String userId) {
-        try {
-            List<ChatMessage> history = chatService.getChatHistory(userId);
-            return ResponseEntity.ok(history);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public List<ChatMessage> getChatHistory(@PathVariable String userId) {
+        return chatService.getChatHistory(userId);
     }
     
     @GetMapping("/chat/recent/{userId}")
-    public ResponseEntity<List<ChatMessage>> getRecentMessages(
+    public List<ChatMessage> getRecentMessages(
             @PathVariable String userId,
             @RequestParam(defaultValue = "10") int limit) {
-        try {
-            List<ChatMessage> messages = chatService.getRecentMessages(userId, limit);
-            return ResponseEntity.ok(messages);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return chatService.getRecentMessages(userId, limit);
     }
     
     @GetMapping("/chat/count/{userId}")
-    public ResponseEntity<Long> getMessageCount(@PathVariable String userId) {
-        try {
-            long count = chatService.getMessageCount(userId);
-            return ResponseEntity.ok(count);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public long getMessageCount(@PathVariable String userId) {
+        return chatService.getMessageCount(userId);
     }
 }

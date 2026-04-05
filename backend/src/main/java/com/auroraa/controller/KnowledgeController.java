@@ -5,10 +5,12 @@ import com.auroraa.dto.KnowledgeResponse;
 import com.auroraa.entity.KnowledgeBase;
 import com.auroraa.service.KnowledgeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/knowledge")
@@ -19,91 +21,48 @@ public class KnowledgeController {
     private KnowledgeService knowledgeService;
     
     @PostMapping
-    public ResponseEntity<KnowledgeResponse> addKnowledge(@RequestBody KnowledgeRequest request) {
-        try {
-            KnowledgeResponse response = knowledgeService.addKnowledge(request);
-            return ResponseEntity.ok(response);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+    @ResponseStatus(HttpStatus.CREATED)
+    public KnowledgeResponse addKnowledge(@RequestBody KnowledgeRequest request) {
+        return knowledgeService.addKnowledge(request);
     }
     
     @GetMapping("/topic/{topic}")
     public ResponseEntity<KnowledgeBase> getKnowledgeByTopic(@PathVariable String topic) {
-        try {
-            return knowledgeService.getKnowledgeByTopic(topic)
-                    .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.notFound().build());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+        return knowledgeService.getKnowledgeByTopic(topic)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
     
     @GetMapping("/category/{category}")
-    public ResponseEntity<List<KnowledgeBase>> getKnowledgeByCategory(@PathVariable String category) {
-        try {
-            List<KnowledgeBase> knowledge = knowledgeService.getKnowledgeByCategory(category);
-            return ResponseEntity.ok(knowledge);
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+    public List<KnowledgeBase> getKnowledgeByCategory(@PathVariable String category) {
+        return knowledgeService.getKnowledgeByCategory(category);
     }
     
     @GetMapping("/categories")
-    public ResponseEntity<List<String>> getAllCategories() {
-        try {
-            List<String> categories = knowledgeService.getAllCategories();
-            return ResponseEntity.ok(categories);
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+    public List<String> getAllCategories() {
+        return knowledgeService.getAllCategories();
     }
     
     @GetMapping("/search")
-    public ResponseEntity<List<KnowledgeBase>> searchKnowledge(@RequestParam String term) {
-        try {
-            List<KnowledgeBase> results = knowledgeService.searchKnowledge(term);
-            return ResponseEntity.ok(results);
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+    public List<KnowledgeBase> searchKnowledge(@RequestParam String term) {
+        return knowledgeService.searchKnowledge(term);
     }
     
     @GetMapping
-    public ResponseEntity<List<KnowledgeBase>> getAllKnowledge() {
-        try {
-            List<KnowledgeBase> knowledge = knowledgeService.getAllKnowledge();
-            return ResponseEntity.ok(knowledge);
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+    public List<KnowledgeBase> getAllKnowledge() {
+        return knowledgeService.getAllKnowledge();
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<KnowledgeResponse> updateKnowledge(
+    public KnowledgeResponse updateKnowledge(
             @PathVariable String id, 
             @RequestBody KnowledgeRequest request) {
-        try {
-            KnowledgeResponse response = knowledgeService.updateKnowledge(id, request);
-            return ResponseEntity.ok(response);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+        return knowledgeService.updateKnowledge(id, request);
     }
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteKnowledge(@PathVariable String id) {
-        try {
-            knowledgeService.deleteKnowledge(id);
-            return ResponseEntity.ok().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteKnowledge(@PathVariable String id) {
+        knowledgeService.deleteKnowledge(id);
     }
 }
