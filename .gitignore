@@ -1,5 +1,8 @@
 # AuroraAI .gitignore
 
+# Scrum Management (keep private)
+README-SCRUM.md
+
 # Compiled class file
 *.class
 

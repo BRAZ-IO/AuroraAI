@@ -4,7 +4,7 @@ import com.auroraa.dto.CodeGenerationRequest;
 import com.auroraa.dto.CodeGenerationResponse;
 import com.auroraa.dto.CodeAnalysisRequest;
 import com.auroraa.dto.CodeAnalysisResponse;
-import com.auroraa.service.CodeService;
+import com.auroraa.service.CodeGenerationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class CodeController {
     private static final Logger logger = LoggerFactory.getLogger(CodeController.class);
     
     @Autowired
-    private CodeService codeService;
+    private CodeGenerationService codeGenerationService;
     
     @PostMapping("/generate")
     public ResponseEntity<CodeGenerationResponse> generateCode(@RequestBody CodeGenerationRequest request) {
@@ -30,7 +30,7 @@ public class CodeController {
                    request.getLanguage(), request.getFramework());
         
         try {
-            CodeGenerationResponse response = codeService.generateCode(request);
+            CodeGenerationResponse response = codeGenerationService.generateCode(request);
             logger.info("Code generated successfully with {} characters", 
                        response.getGeneratedCode().length());
             return ResponseEntity.ok(response);
@@ -46,7 +46,7 @@ public class CodeController {
                    request.getLanguage(), request.getAnalysisType());
         
         try {
-            CodeAnalysisResponse response = codeService.analyzeCode(request);
+            CodeAnalysisResponse response = codeGenerationService.analyzeCode(request);
             logger.info("Code analysis completed with score: {}, issues found: {}", 
                        response.getScore(), response.getIssues().size());
             return ResponseEntity.ok(response);
@@ -61,7 +61,7 @@ public class CodeController {
         logger.debug("Fetching supported programming languages");
         
         try {
-            List<String> languages = codeService.getSupportedLanguages();
+            List<String> languages = codeGenerationService.getSupportedLanguages();
             logger.info("Retrieved {} supported languages", languages.size());
             return ResponseEntity.ok(languages);
         } catch (Exception e) {
@@ -75,7 +75,7 @@ public class CodeController {
         logger.debug("Fetching frameworks for language: {}", language);
         
         try {
-            List<String> frameworks = codeService.getFrameworksForLanguage(language);
+            List<String> frameworks = codeGenerationService.getFrameworksForLanguage(language);
             logger.info("Retrieved {} frameworks for language: {}", frameworks.size(), language);
             return ResponseEntity.ok(frameworks);
         } catch (Exception e) {
@@ -89,7 +89,7 @@ public class CodeController {
         logger.debug("Fetching code templates for language: {}", language);
         
         try {
-            List<String> templates = codeService.getCodeTemplates(language);
+            List<String> templates = codeGenerationService.getCodeTemplates(language);
             logger.info("Retrieved {} templates for language: {}", templates.size(), language);
             return ResponseEntity.ok(templates);
         } catch (Exception e) {

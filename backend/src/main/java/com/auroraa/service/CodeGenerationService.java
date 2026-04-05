@@ -14,9 +14,9 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class CodeService {
+public class CodeGenerationService {
     
-    private static final Logger logger = LoggerFactory.getLogger(CodeService.class);
+    private static final Logger logger = LoggerFactory.getLogger(CodeGenerationService.class);
     
     private static final Map<String, List<String>> SUPPORTED_LANGUAGES = Map.of(
         "java", List.of("spring-boot", "spring-mvc", "jakarta-ee"),
