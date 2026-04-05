@@ -1,6 +1,11 @@
 package com.auroraa.service;
 
 import com.auroraa.dto.*;
+import com.auroraa.dto.AnalysisResponse.CodeIssue;
+import com.auroraa.dto.SecurityScanResult.SecurityVulnerability;
+import com.auroraa.dto.PerformanceAnalysis.PerformanceIssue;
+import com.auroraa.dto.ComparisonResult.AnalysisComparison;
+import com.auroraa.dto.BatchAnalysisRequest.AnalysisFile;
 import com.auroraa.exception.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

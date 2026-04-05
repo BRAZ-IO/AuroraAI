@@ -20,6 +20,14 @@ public class KnowledgeResponse {
         this.createdAt = LocalDateTime.now();
     }
     
+    public KnowledgeResponse(String id, String topic, String response, String category, LocalDateTime createdAt, String source) {
+        this.id = id;
+        this.topic = topic;
+        this.response = response;
+        this.category = category;
+        this.createdAt = createdAt;
+    }
+    
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
     

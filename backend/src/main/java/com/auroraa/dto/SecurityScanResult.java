@@ -35,6 +35,17 @@ public class SecurityScanResult {
         private String recommendation;
         private String cweId;
         
+        public SecurityVulnerability() {}
+        
+        public SecurityVulnerability(String type, String severity, String description, int line, String recommendation, String cweId) {
+            this.type = type;
+            this.severity = severity;
+            this.description = description;
+            this.line = line;
+            this.recommendation = recommendation;
+            this.cweId = cweId;
+        }
+        
         // Getters and setters
         public String getType() { return type; }
         public void setType(String type) { this.type = type; }

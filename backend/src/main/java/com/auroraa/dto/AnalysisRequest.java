@@ -2,6 +2,7 @@ package com.auroraa.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import java.util.Map;
 
 public class AnalysisRequest {
     

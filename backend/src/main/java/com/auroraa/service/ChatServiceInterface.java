@@ -2,7 +2,7 @@ package com.auroraa.service;
 
 import com.auroraa.dto.ChatRequest;
 import com.auroraa.dto.ChatResponse;
-import com.auroraa.entity.ChatMessage;
+import com.auroraa.entity.ChatHistory;
 
 import java.util.List;
 
@@ -10,11 +10,11 @@ public interface ChatServiceInterface {
     
     ChatResponse processMessage(ChatRequest request);
     
-    List<ChatMessage> getChatHistory(String userId);
+    List<ChatHistory> getChatHistory(String userId);
     
-    List<ChatMessage> getRecentMessages(String userId, int limit);
+    List<ChatHistory> getRecentMessages(String userId, int limit);
     
-    ChatMessage saveMessage(ChatMessage message);
+    ChatHistory saveMessage(ChatHistory message);
     
     void deleteOldMessages(String userId, int daysToKeep);
     

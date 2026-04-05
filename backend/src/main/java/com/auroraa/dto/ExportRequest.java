@@ -12,6 +12,7 @@ public class ExportRequest {
     private boolean includeMetadata;
     private boolean includeSettings;
     private Map<String, Object> options;
+    private String tags;
     
     public ExportRequest() {
         this.format = "zip";
@@ -41,4 +42,7 @@ public class ExportRequest {
     
     public Map<String, Object> getOptions() { return options; }
     public void setOptions(Map<String, Object> options) { this.options = options; }
+    
+    public String getTags() { return tags; }
+    public void setTags(String tags) { this.tags = tags; }
 }

@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -230,7 +231,7 @@ public class AIService {
                 break;
                 
             case "python":
-                code.append("class " + (framework != null ? framework.capitalize() : "Generated") + ":\n");
+                code.append("class " + (framework != null ? framework.substring(0, 1).toUpperCase() + framework.substring(1).toLowerCase() : "Generated") + ":\n");
                 code.append("    def " + (framework != null ? framework.toLowerCase() : "method") + "(self):\n");
                 code.append("        # Generated code for: ").append(prompt).append("\n");
                 code.append("        print('Hello from AI!')\n");

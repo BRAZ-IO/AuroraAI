@@ -2,7 +2,7 @@ package com.auroraa.controller;
 
 import com.auroraa.dto.ChatRequest;
 import com.auroraa.dto.ChatResponse;
-import com.auroraa.entity.ChatMessage;
+import com.auroraa.entity.ChatHistory;
 import com.auroraa.service.ChatService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +45,7 @@ public class ChatController {
     }
     
     @GetMapping("/history/{userId}")
-    public ResponseEntity<Page<ChatMessage>> getChatHistory(
+    public ResponseEntity<Page<ChatHistory>> getChatHistory(
             @PathVariable String userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size,
@@ -60,14 +60,14 @@ public class ChatController {
                 Sort.Direction.DESC : Sort.Direction.ASC;
             Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
             
-            List<ChatMessage> messages = chatService.getChatHistory(userId);
+            List<ChatHistory> messages = chatService.getChatHistory(userId);
             
             // Convert List to Page (simplified pagination)
             int start = (int) pageable.getOffset();
             int end = Math.min((start + pageable.getPageSize()), messages.size());
-            List<ChatMessage> pageContent = messages.subList(start, end);
+            List<ChatHistory> pageContent = messages.subList(start, end);
             
-            Page<ChatMessage> pageResult = new org.springframework.data.domain.PageImpl<>(
+            Page<ChatHistory> pageResult = new org.springframework.data.domain.PageImpl<>(
                 pageContent, pageable, messages.size()
             );
             
@@ -83,12 +83,12 @@ public class ChatController {
     }
     
     @GetMapping("/conversation/{conversationId}")
-    public ResponseEntity<List<ChatMessage>> getConversation(@PathVariable String conversationId) {
+    public ResponseEntity<List<ChatHistory>> getConversation(@PathVariable String conversationId) {
         logger.debug("Fetching conversation: {}", conversationId);
         
         try {
             // TODO: Implement conversation-specific retrieval in ChatService
-            List<ChatMessage> messages = chatService.getRecentMessages("temp-user", 50);
+            List<ChatHistory> messages = chatService.getRecentMessages("temp-user", 50);
             logger.info("Retrieved {} messages for conversation: {}", 
                        messages.size(), conversationId);
             return ResponseEntity.ok(messages);
@@ -100,7 +100,7 @@ public class ChatController {
     }
     
     @GetMapping("/search/{userId}")
-    public ResponseEntity<List<ChatMessage>> searchMessages(
+    public ResponseEntity<List<ChatHistory>> searchMessages(
             @PathVariable String userId,
             @RequestParam String query,
             @RequestParam(defaultValue = "10") int limit) {
@@ -109,10 +109,10 @@ public class ChatController {
                     userId, query, limit);
         
         try {
-            List<ChatMessage> messages = chatService.getRecentMessages(userId, limit);
+            List<ChatHistory> messages = chatService.getRecentMessages(userId, limit);
             
             // Simple text filtering (TODO: implement proper search in service)
-            List<ChatMessage> filtered = messages.stream()
+            List<ChatHistory> filtered = messages.stream()
                 .filter(msg -> msg.getMessage().toLowerCase().contains(query.toLowerCase()) ||
                               msg.getResponse().toLowerCase().contains(query.toLowerCase()))
                 .limit(limit)
@@ -148,7 +148,7 @@ public class ChatController {
         
         try {
             long messageCount = chatService.getMessageCount(userId);
-            List<ChatMessage> recentMessages = chatService.getRecentMessages(userId, 1);
+            List<ChatHistory> recentMessages = chatService.getRecentMessages(userId, 1);
             
             ChatStats stats = new ChatStats();
             stats.setUserId(userId);
@@ -171,7 +171,7 @@ public class ChatController {
         
         try {
             // TODO: Implement conversation grouping in ChatService
-            List<ChatMessage> messages = chatService.getChatHistory(userId);
+            List<ChatHistory> messages = chatService.getChatHistory(userId);
             
             // Mock conversation summaries
             List<ConversationSummary> conversations = List.of(

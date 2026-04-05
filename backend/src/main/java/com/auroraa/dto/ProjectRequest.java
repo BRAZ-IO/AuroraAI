@@ -18,6 +18,7 @@ public class ProjectRequest {
     private String category;
     
     private String visibility; // public, private, team
+    private String ownerId;
     private Map<String, Object> settings;
     private Map<String, Object> metadata;
     
@@ -39,6 +40,9 @@ public class ProjectRequest {
     
     public String getVisibility() { return visibility; }
     public void setVisibility(String visibility) { this.visibility = visibility; }
+    
+    public String getOwnerId() { return ownerId; }
+    public void setOwnerId(String ownerId) { this.ownerId = ownerId; }
     
     public Map<String, Object> getSettings() { return settings; }
     public void setSettings(Map<String, Object> settings) { this.settings = settings; }

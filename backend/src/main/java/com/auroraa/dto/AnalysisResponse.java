@@ -2,6 +2,7 @@ package com.auroraa.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public class AnalysisResponse {
     

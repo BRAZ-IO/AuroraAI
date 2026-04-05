@@ -166,230 +166,231 @@ public class CodeGenerationService {
     }
     
     private String generateJavaController(CodeGenerationRequest request) {
-        return """
-            @RestController
-            @RequestMapping("/api/" + request.getContext().toLowerCase() + ")
-            public class """ + capitalizeFirst(request.getContext()) + """Controller {
-                
-                @Autowired
-                private """ + capitalizeFirst(request.getContext()) + """Service service;
-                
-                @GetMapping
-                public List<""" + capitalizeFirst(request.getContext()) + """> getAll() {
-                    return service.findAll();
-                }
-                
-                @GetMapping("/{id}")
-                public """ + capitalizeFirst(request.getContext()) + """ getById(@PathVariable String id) {
-                    return service.findById(id);
-                }
-                
-                @PostMapping
-                public """ + capitalizeFirst(request.getContext()) + """ create(@RequestBody """ + capitalizeFirst(request.getContext()) + """ request) {
-                    return service.create(request);
-                }
-                
-                @PutMapping("/{id}")
-                public """ + capitalizeFirst(request.getContext()) + """ update(@PathVariable String id, @RequestBody """ + capitalizeFirst(request.getContext()) + """ request) {
-                    return service.update(id, request);
-                }
-                
-                @DeleteMapping("/{id}")
-                public void delete(@PathVariable String id) {
-                    service.delete(id);
-                }
-            }
-            """;
+        String ctx = capitalizeFirst(request.getContext());
+        String ctxLower = request.getContext().toLowerCase();
+        return "@RestController\n" +
+            "@RequestMapping(\"/api/" + ctxLower + "\")\n" +
+            "public class " + ctx + "Controller {\n" +
+            "\n" +
+            "    @Autowired\n" +
+            "    private " + ctx + "Service service;\n" +
+            "\n" +
+            "    @GetMapping\n" +
+            "    public List<" + ctx + "> getAll() {\n" +
+            "        return service.findAll();\n" +
+            "    }\n" +
+            "\n" +
+            "    @GetMapping(\"/{id}\")\n" +
+            "    public " + ctx + " getById(@PathVariable String id) {\n" +
+            "        return service.findById(id);\n" +
+            "    }\n" +
+            "\n" +
+            "    @PostMapping\n" +
+            "    public " + ctx + " create(@RequestBody " + ctx + " request) {\n" +
+            "        return service.create(request);\n" +
+            "    }\n" +
+            "\n" +
+            "    @PutMapping(\"/{id}\")\n" +
+            "    public " + ctx + " update(@PathVariable String id, @RequestBody " + ctx + " request) {\n" +
+            "        return service.update(id, request);\n" +
+            "    }\n" +
+            "\n" +
+            "    @DeleteMapping(\"/{id}\")\n" +
+            "    public void delete(@PathVariable String id) {\n" +
+            "        service.delete(id);\n" +
+            "    }\n" +
+            "}\n";
     }
     
     private String generateJavaService(CodeGenerationRequest request) {
-        return """
-            @Service
-            public class """ + capitalizeFirst(request.getContext()) + """Service {
-                
-                @Autowired
-                private """ + capitalizeFirst(request.getContext()) + """Repository repository;
-                
-                public List<""" + capitalizeFirst(request.getContext()) + """> findAll() {
-                    return repository.findAll();
-                }
-                
-                public Optional<""" + capitalizeFirst(request.getContext()) + """> findById(String id) {
-                    return repository.findById(id);
-                }
-                
-                public """ + capitalizeFirst(request.getContext()) + """ create(""" + capitalizeFirst(request.getContext()) + """ request) {
-                    """ + capitalizeFirst(request.getContext()) + """ entity = new """ + capitalizeFirst(request.getContext()) + """(request);
-                    return repository.save(entity);
-                }
-                
-                public """ + capitalizeFirst(request.getContext()) + """ update(String id, """ + capitalizeFirst(request.getContext()) + """ request) {
-                    """ + capitalizeFirst(request.getContext()) + """ existing = repository.findById(id)
-                        .orElseThrow(() -> new ResourceNotFoundException("""" + capitalizeFirst(request.getContext()) + """ not found"));
-                    
-                    existing.updateFrom(request);
-                    return repository.save(existing);
-                }
-                
-                public void delete(String id) {
-                    if (!repository.existsById(id)) {
-                        throw new ResourceNotFoundException("""" + capitalizeFirst(request.getContext()) + """ not found");
-                    }
-                    repository.deleteById(id);
-                }
-            }
-            """;
+        String ctx = capitalizeFirst(request.getContext());
+        return "@Service\n" +
+            "public class " + ctx + "Service {\n" +
+            "\n" +
+            "    @Autowired\n" +
+            "    private " + ctx + "Repository repository;\n" +
+            "\n" +
+            "    public List<" + ctx + "> findAll() {\n" +
+            "        return repository.findAll();\n" +
+            "    }\n" +
+            "\n" +
+            "    public Optional<" + ctx + "> findById(String id) {\n" +
+            "        return repository.findById(id);\n" +
+            "    }\n" +
+            "\n" +
+            "    public " + ctx + " create(" + ctx + " request) {\n" +
+            "        " + ctx + " entity = new " + ctx + "(request);\n" +
+            "        return repository.save(entity);\n" +
+            "    }\n" +
+            "\n" +
+            "    public " + ctx + " update(String id, " + ctx + " request) {\n" +
+            "        " + ctx + " existing = repository.findById(id)\n" +
+            "            .orElseThrow(() -> new ResourceNotFoundException(\"" + ctx + " not found\"));\n" +
+            "\n" +
+            "        existing.updateFrom(request);\n" +
+            "        return repository.save(existing);\n" +
+            "    }\n" +
+            "\n" +
+            "    public void delete(String id) {\n" +
+            "        if (!repository.existsById(id)) {\n" +
+            "            throw new ResourceNotFoundException(\"" + ctx + " not found\");\n" +
+            "        }\n" +
+            "        repository.deleteById(id);\n" +
+            "    }\n" +
+            "}\n";
     }
     
     private String generateJavaEntity(CodeGenerationRequest request) {
-        return """
-            @Entity
-            @Table(name = \"""" + request.getContext().toLowerCase() + """s")
-            public class """ + capitalizeFirst(request.getContext()) + """ {
-                
-                @Id
-                @GeneratedValue(strategy = GenerationType.AUTO)
-                private String id;
-                
-                @Column(nullable = false)
-                private String name;
-                
-                @Column(nullable = false)
-                private LocalDateTime createdAt;
-                
-                @Column(nullable = false)
-                private LocalDateTime updatedAt;
-                
-                public """ + capitalizeFirst(request.getContext()) + """() {
-                    this.id = UUID.randomUUID().toString();
-                    this.createdAt = LocalDateTime.now();
-                    this.updatedAt = LocalDateTime.now();
-                }
-                
-                // Getters and setters
-                public String getId() { return id; }
-                public void setId(String id) { this.id = id; }
-                
-                public String getName() { return name; }
-                public void setName(String name) { 
-                    this.name = name;
-                    this.updatedAt = LocalDateTime.now();
-                }
-                
-                public LocalDateTime getCreatedAt() { return createdAt; }
-                public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-                
-                public LocalDateTime getUpdatedAt() { return updatedAt; }
-                public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
-            }
-            """;
+        String ctx = capitalizeFirst(request.getContext());
+        String ctxLower = request.getContext().toLowerCase();
+        return "@Entity\n" +
+            "@Table(name = \"" + ctxLower + "s\")\n" +
+            "public class " + ctx + " {\n" +
+            "\n" +
+            "    @Id\n" +
+            "    @GeneratedValue(strategy = GenerationType.AUTO)\n" +
+            "    private String id;\n" +
+            "\n" +
+            "    @Column(nullable = false)\n" +
+            "    private String name;\n" +
+            "\n" +
+            "    @Column(nullable = false)\n" +
+            "    private LocalDateTime createdAt;\n" +
+            "\n" +
+            "    @Column(nullable = false)\n" +
+            "    private LocalDateTime updatedAt;\n" +
+            "\n" +
+            "    public " + ctx + "() {\n" +
+            "        this.id = UUID.randomUUID().toString();\n" +
+            "        this.createdAt = LocalDateTime.now();\n" +
+            "        this.updatedAt = LocalDateTime.now();\n" +
+            "    }\n" +
+            "\n" +
+            "    // Getters and setters\n" +
+            "    public String getId() { return id; }\n" +
+            "    public void setId(String id) { this.id = id; }\n" +
+            "\n" +
+            "    public String getName() { return name; }\n" +
+            "    public void setName(String name) {\n" +
+            "        this.name = name;\n" +
+            "        this.updatedAt = LocalDateTime.now();\n" +
+            "    }\n" +
+            "\n" +
+            "    public LocalDateTime getCreatedAt() { return createdAt; }\n" +
+            "    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }\n" +
+            "\n" +
+            "    public LocalDateTime getUpdatedAt() { return updatedAt; }\n" +
+            "    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }\n" +
+            "}\n";
     }
     
     private String generateReactComponent(CodeGenerationRequest request) {
-        return """
-            import React, { useState, useEffect } from 'react';
-            import './""" + capitalizeFirst(request.getContext()) + """.css';
-            
-            const """ + capitalizeFirst(request.getContext()) + """ = () => {
-                const [data, setData] = useState([]);
-                const [loading, setLoading] = useState(true);
-                
-                useEffect(() => {
-                    fetchData();
-                }, []);
-                
-                const fetchData = async () => {
-                    try {
-                        setLoading(true);
-                        const response = await fetch('/api/""" + request.getContext().toLowerCase() + """');
-                        const result = await response.json();
-                        setData(result);
-                    } catch (error) {
-                        console.error('Error fetching data:', error);
-                    } finally {
-                        setLoading(false);
-                    }
-                };
-                
-                if (loading) {
-                    return <div>Loading...</div>;
-                }
-                
-                return (
-                    <div className={"""" + request.getContext().toLowerCase() + "-container"""}>
-                        <h1>""" + capitalizeFirst(request.getContext()) + """</h1>
-                        <div className={"""" + request.getContext().toLowerCase() + "-list"""}>
-                            {data.map(item => (
-                                <div key={item.id} className={"""" + request.getContext().toLowerCase() + "-item"""}>
-                                    <h3>{item.name}</h3>
-                                    <p>Created: {new Date(item.createdAt).toLocaleDateString()}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                );
-            };
-            
-            export default """ + capitalizeFirst(request.getContext()) + """;
-            """;
+        String ctx = capitalizeFirst(request.getContext());
+        String ctxLower = request.getContext().toLowerCase();
+        return "import React, { useState, useEffect } from 'react';\n" +
+            "import './" + ctx + ".css';\n" +
+            "\n" +
+            "const " + ctx + " = () => {\n" +
+            "    const [data, setData] = useState([]);\n" +
+            "    const [loading, setLoading] = useState(true);\n" +
+            "\n" +
+            "    useEffect(() => {\n" +
+            "        fetchData();\n" +
+            "    }, []);\n" +
+            "\n" +
+            "    const fetchData = async () => {\n" +
+            "        try {\n" +
+            "            setLoading(true);\n" +
+            "            const response = await fetch('/api/" + ctxLower + "');\n" +
+            "            const result = await response.json();\n" +
+            "            setData(result);\n" +
+            "        } catch (error) {\n" +
+            "            console.error('Error fetching data:', error);\n" +
+            "        } finally {\n" +
+            "            setLoading(false);\n" +
+            "        }\n" +
+            "    };\n" +
+            "\n" +
+            "    if (loading) {\n" +
+            "        return <div>Loading...</div>;\n" +
+            "    }\n" +
+            "\n" +
+            "    return (\n" +
+            "        <div className=\"" + ctxLower + "-container\">\n" +
+            "            <h1>" + ctx + "</h1>\n" +
+            "            <div className=\"" + ctxLower + "-list\">\n" +
+            "                {data.map(item => (\n" +
+            "                    <div key={item.id} className=\"" + ctxLower + "-item\">\n" +
+            "                        <h3>{item.name}</h3>\n" +
+            "                        <p>Created: {new Date(item.createdAt).toLocaleDateString()}</p>\n" +
+            "                    </div>\n" +
+            "                ))}\n" +
+            "            </div>\n" +
+            "        </div>\n" +
+            "    );\n" +
+            "};\n" +
+            "\n" +
+            "export default " + ctx + ";\n";
     }
     
     private String generateJavaScriptFunction(CodeGenerationRequest request) {
-        return """
-            /**
-             * """ + request.getPrompt() + """
-             * @param {Object} params - Function parameters
-             * @returns {Promise<Object>} - Function result
-             */
-            const """ + request.getContext().toLowerCase() + """ = async (params = {}) => {
-                try {
-                    // Validate input parameters
-                    if (!params || typeof params !== 'object') {
-                        throw new Error('Invalid parameters provided');
-                    }
-                    
-                    // Main logic here
-                    const result = {
-                        success: true,
-                        data: params,
-                        timestamp: new Date().toISOString()
-                    };
-                    
-                    return result;
-                    
-                } catch (error) {
-                    console.error('Error in """ + request.getContext().toLowerCase() + """:', error);
-                    throw error;
-                }
-            };
-            
-            module.exports = """ + request.getContext().toLowerCase() + """;
-            """;
+        String ctx = request.getContext().toLowerCase();
+        String prompt = request.getPrompt();
+        return "/**\n" +
+            " * " + prompt + "\n" +
+            " * @param {Object} params - Function parameters\n" +
+            " * @returns {Promise<Object>} - Function result\n" +
+            " */\n" +
+            "const " + ctx + " = async (params = {}) => {\n" +
+            "    try {\n" +
+            "        // Validate input parameters\n" +
+            "        if (!params || typeof params !== 'object') {\n" +
+            "            throw new Error('Invalid parameters provided');\n" +
+            "        }\n" +
+            "\n" +
+            "        // Main logic here\n" +
+            "        const result = {\n" +
+            "            success: true,\n" +
+            "            data: params,\n" +
+            "            timestamp: new Date().toISOString()\n" +
+            "        };\n" +
+            "\n" +
+            "        return result;\n" +
+            "\n" +
+            "    } catch (error) {\n" +
+            "        console.error('Error in " + ctx + ":', error);\n" +
+            "        throw error;\n" +
+            "    }\n" +
+            "};\n" +
+            "\n" +
+            "module.exports = " + ctx + ";\n";
     }
     
     private String generateGenericCode(CodeGenerationRequest request) {
-        return """
-            // Generated code for """ + request.getLanguage() + """
-            // Prompt: """ + request.getPrompt() + """
-            // Framework: """ + request.getFramework() + """
-            // Context: """ + request.getContext() + """
-            
-            // TODO: Implement specific logic based on requirements
-            // This is a template that should be customized
-            
-            function """ + request.getContext().toLowerCase() + """(params) {
-                // Add your implementation here
-                console.log('""" + request.getContext() + """ called with:', params);
-                
-                return {
-                    status: 'success',
-                    message: '""" + request.getContext() + """ executed successfully',
-                    data: params
-                };
-            }
-            
-            module.exports = """ + request.getContext().toLowerCase() + """;
-            """;
+        String lang = request.getLanguage();
+        String prompt = request.getPrompt();
+        String framework = request.getFramework();
+        String ctx = request.getContext();
+        return "// Generated code for " + lang + "\n" +
+            "// Prompt: " + prompt + "\n" +
+            "// Framework: " + framework + "\n" +
+            "// Context: " + ctx + "\n" +
+            "\n" +
+            "// TODO: Implement specific logic based on requirements\n" +
+            "// This is a template that should be customized\n" +
+            "\n" +
+            "function " + ctx.toLowerCase() + "(params) {\n" +
+            "    // Add your implementation here\n" +
+            "    console.log('" + ctx + " called with:', params);\n" +
+            "\n" +
+            "    return {\n" +
+            "        status: 'success',\n" +
+            "        message: '" + ctx + " executed successfully',\n" +
+            "        data: params\n" +
+            "    };\n" +
+            "}\n" +
+            "\n" +
+            "module.exports = " + ctx.toLowerCase() + ";\n";
     }
     
     private String generateExplanation(CodeGenerationRequest request) {

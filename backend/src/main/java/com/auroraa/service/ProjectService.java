@@ -442,16 +442,16 @@ public class ProjectService {
             // Mock export implementation
             String content = generateExportContent(project, request);
             
-            return switch (request.getFormat().toLowerCase()) {
-                case "zip":
-                    return generateZipExport(content, project, request);
-                case "json":
-                    return content.getBytes();
-                case "csv":
-                    return generateCsvExport(project, request);
-                default:
-                    return content.getBytes();
-            };
+            String format = request.getFormat().toLowerCase();
+            if ("zip".equals(format)) {
+                return generateZipExport(content, project, request);
+            } else if ("json".equals(format)) {
+                return content.getBytes();
+            } else if ("csv".equals(format)) {
+                return generateCsvExport(project, request);
+            } else {
+                return content.getBytes();
+            }
             
         } catch (Exception e) {
             logger.error("Error exporting project {}: {}", id, e.getMessage(), e);

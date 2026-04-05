@@ -1,11 +1,13 @@
 package com.auroraa.service;
 
 import com.auroraa.dto.*;
+import com.auroraa.dto.ApiDocumentation.ApiEndpoint;
 import com.auroraa.exception.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -168,13 +170,18 @@ public class DocumentationService {
             // Mock export functionality
             String content = request.getContent() != null ? request.getContent() : "# Sample Documentation\n\nExported content";
             
-            return switch (request.getFormat().toLowerCase()) {
-                case "markdown" -> content.getBytes();
-                case "html" -> generateHtmlExport(content).getBytes();
-                case "pdf" -> generatePdfExport(content).getBytes();
-                case "docx" -> generateDocxExport(content).getBytes();
-                default -> content.getBytes();
-            };
+            String format = request.getFormat().toLowerCase();
+            if ("markdown".equals(format)) {
+                return content.getBytes(StandardCharsets.UTF_8);
+            } else if ("html".equals(format)) {
+                return generateHtmlExport(content).getBytes(StandardCharsets.UTF_8);
+            } else if ("pdf".equals(format)) {
+                return generatePdfExport(content);
+            } else if ("docx".equals(format)) {
+                return generateDocxExport(content);
+            } else {
+                return content.getBytes(StandardCharsets.UTF_8);
+            }
             
         } catch (Exception e) {
             logger.error("Error exporting documentation: {}", e.getMessage(), e);

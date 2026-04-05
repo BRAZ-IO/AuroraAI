@@ -2,7 +2,7 @@ package com.auroraa.controller;
 
 import com.auroraa.dto.ChatRequest;
 import com.auroraa.dto.ChatResponse;
-import com.auroraa.entity.ChatMessage;
+import com.auroraa.entity.ChatHistory;
 import com.auroraa.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,12 +34,12 @@ public class AuroraController {
     }
     
     @GetMapping("/chat/history/{userId}")
-    public List<ChatMessage> getChatHistory(@PathVariable String userId) {
+    public List<ChatHistory> getChatHistory(@PathVariable String userId) {
         return chatService.getChatHistory(userId);
     }
     
     @GetMapping("/chat/recent/{userId}")
-    public List<ChatMessage> getRecentMessages(
+    public List<ChatHistory> getRecentMessages(
             @PathVariable String userId,
             @RequestParam(defaultValue = "10") int limit) {
         return chatService.getRecentMessages(userId, limit);

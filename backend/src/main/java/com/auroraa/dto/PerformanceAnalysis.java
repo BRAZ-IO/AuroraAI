@@ -36,6 +36,17 @@ public class PerformanceAnalysis {
         private String impact;
         private String suggestion;
         
+        public PerformanceIssue() {}
+        
+        public PerformanceIssue(String type, String severity, String description, int line, String impact, String suggestion) {
+            this.type = type;
+            this.severity = severity;
+            this.description = description;
+            this.line = line;
+            this.impact = impact;
+            this.suggestion = suggestion;
+        }
+        
         // Getters and setters
         public String getType() { return type; }
         public void setType(String type) { this.type = type; }
