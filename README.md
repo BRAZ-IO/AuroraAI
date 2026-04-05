@@ -1,14 +1,14 @@
-# 📚 AuroraDocs-Web
+# 🌊 AuroraDocs-Web
 
-*AI-Powered Documentation Generator for Modern Development*
+*AI-Powered Development Assistant Platform*
 
 ---
 
 ## 🚀 About AuroraDocs-Web
 
-AuroraDocs-Web is a cutting-edge web-based platform designed to revolutionize how developers create project documentation, README files, and AI prompts. Inspired by tools like Windsurf, this browser-based solution leverages advanced AI to generate comprehensive, professional documentation in seconds.
+AuroraDocs-Web is a cutting-edge AI-powered development assistant designed to revolutionize how developers write code, create documentation, and manage projects. This browser-based solution leverages advanced AI to provide intelligent code generation, documentation creation, and development assistance.
 
-Transform your codebase into beautifully structured documentation with an intuitive interface that adapts to your project's unique architecture and requirements.
+Transform your development workflow with an AI companion that understands your codebase, generates professional documentation, writes clean code, and assists in complex problem-solving - all through an intuitive web interface.
 
 ---
 
@@ -57,16 +57,20 @@ AuroraDocs-Web/
 ├── 📂 client/                    # Frontend React Application
 │   ├── 📂 src/
 │   │   ├── 📂 components/        # UI Components
-│   │   │   ├── 📄 Editor.tsx     # Markdown editor
-│   │   │   ├── 📄 Preview.tsx    # Live preview
-│   │   │   ├── 📄 Generator.tsx  # AI generation panel
-│   │   │   └── 📄 Templates.tsx  # Template selector
+│   │   │   ├── 📄 CodeEditor.tsx     # Monaco editor with AI
+│   │   │   ├── 📄 ChatInterface.tsx  # AI chat assistant
+│   │   │   ├── 📄 CodeGenerator.tsx  # Code generation panel
+│   │   │   ├── 📄 Documentation.tsx  # Documentation viewer
+│   │   │   └── 📄 AnalysisPanel.tsx  # Code analysis results
 │   │   ├── 📂 pages/            # Application pages
-│   │   │   ├── � Dashboard.tsx
-│   │   │   ├── 📄 Generator.tsx
-│   │   │   └── � History.tsx
+│   │   │   ├── 📄 Dashboard.tsx
+│   │   │   ├── 📄 CodeAssistant.tsx
+│   │   │   ├── 📄 Documentation.tsx
+│   │   │   └── 📄 Projects.tsx
 │   │   ├── 📂 services/         # API services
-│   │   │   └── � api.ts        # Axios/Fetch wrapper
+│   │   │   ├── 📄 aiService.ts       # AI API calls
+│   │   │   ├── 📄 codeService.ts     # Code operations
+│   │   │   └── 📄 docService.ts      # Documentation operations
 │   │   ├── 📂 hooks/            # Custom React hooks
 │   │   └── 📂 utils/            # Utility functions
 │   └── 📄 package.json
@@ -77,23 +81,33 @@ AuroraDocs-Web/
 │   │   │   │   └── 📂 com/auroradocs/
 │   │   │   │       ├── 📄 DocsApplication.java
 │   │   │   │       ├── 📂 controller/
+│   │   │   │       │   ├── 📄 CodeController.java        # Code generation endpoints
+│   │   │   │       │   ├── 📄 ChatController.java         # AI chat endpoints
 │   │   │   │       │   ├── 📄 DocumentationController.java
-│   │   │   │       │   ├── � GenerationController.java
-│   │   │   │       │   └── 📄 TemplateController.java
+│   │   │   │       │   ├── 📄 AnalysisController.java     # Code analysis endpoints
+│   │   │   │       │   └── 📄 ProjectController.java      # Project management
 │   │   │   │       ├── 📂 service/
+│   │   │   │       │   ├── 📄 CodeGenerationService.java
+│   │   │   │       │   ├── 📄 ChatService.java
 │   │   │   │       │   ├── 📄 DocumentationService.java
-│   │   │   │       │   ├── 📄 GenerationService.java
+│   │   │   │       │   ├── 📄 CodeAnalysisService.java
 │   │   │   │       │   └── 📄 AIService.java
 │   │   │   │       ├── 📂 repository/
+│   │   │   │       │   ├── 📄 ProjectRepository.java
+│   │   │   │       │   ├── 📄 CodeSnippetRepository.java
 │   │   │   │       │   ├── 📄 DocumentationRepository.java
-│   │   │   │       │   └── 📄 TemplateRepository.java
+│   │   │   │       │   └── 📄 ChatHistoryRepository.java
 │   │   │   │       ├── 📂 entity/
+│   │   │   │       │   ├── 📄 Project.java
+│   │   │   │       │   ├── 📄 CodeSnippet.java
 │   │   │   │       │   ├── 📄 Documentation.java
-│   │   │   │       │   ├── 📄 Template.java
-│   │   │   │       │   └── 📄 GenerationHistory.java
+│   │   │   │       │   └── 📄 ChatHistory.java
 │   │   │   │       ├── 📂 dto/
-│   │   │   │       │   ├── 📄 GenerationRequest.java
-│   │   │   │       │   └── 📄 GenerationResponse.java
+│   │   │   │       │   ├── 📄 CodeGenerationRequest.java
+│   │   │   │       │   ├── 📄 CodeGenerationResponse.java
+│   │   │   │       │   ├── 📄 ChatRequest.java
+│   │   │   │       │   ├── 📄 ChatResponse.java
+│   │   │   │       │   └── 📄 AnalysisRequest.java
 │   │   │   │       ├── 📂 config/
 │   │   │   │       │   ├── 📄 AIConfig.java
 │   │   │   │       │   └── 📄 WebConfig.java
@@ -105,38 +119,40 @@ AuroraDocs-Web/
 │   │   └── 📂 test/
 │   └── 📄 pom.xml
 ├── 📂 ai/                        # AI/ML Components
-│   ├── 📂 prompts/               # Prompt templates
-│   ├── 📂 models/                # Custom models
-│   └── 📂 pipelines/             # Processing pipelines
-└── � docker-compose.yml
+│   ├── 📂 prompts/               # Prompt templates for code, docs, analysis
+│   ├── 📂 models/                # Custom models and fine-tuning
+│   ├── 📂 pipelines/             # Code processing pipelines
+│   └── 📂 integrations/          # AI provider integrations
+└── 📄 docker-compose.yml
 ```
 
 ---
 
 ## ✨ Features
 
-### 🎯 **MVP Features (Current Focus)**
+### 🎯 **Core Features**
 - [x] Project architecture setup
 - [x] Spring Boot backend skeleton
-- [ ] Code repository analysis
-- [ ] Automatic README generation
-- [ ] Template-based documentation
-- [ ] Markdown export functionality
-- [ ] Basic AI integration
-- [ ] User authentication
-- [ ] Project history tracking
+- [ ] **Code Generation**: AI-powered code writing and completion
+- [ ] **Documentation Generation**: Automatic README and API docs creation
+- [ ] **Code Analysis**: Intelligent code review and improvement suggestions
+- [ ] **Chat Interface**: Conversational AI assistant for development
+- [ ] **Code Explanation**: AI explains complex code snippets
+- [ ] **Bug Detection**: Automatic bug finding and fixing suggestions
+- [ ] **Refactoring**: Smart code refactoring recommendations
+- [ ] **Test Generation**: Automated unit and integration test creation
 
-### � **Planned Features**
-- [ ] Multi-format documentation (MD, HTML, PDF)
-- [ ] Custom prompt engineering
+### 🚀 **Advanced Features**
+- [ ] Multi-language support (JavaScript, Python, Java, Go, etc.)
+- [ ] Repository analysis and understanding
+- [ ] Custom prompt engineering for specific tasks
 - [ ] Integration with GitHub/GitLab
 - [ ] Real-time collaboration
-- [ ] Version control for documentation
-- [ ] Analytics and insights
-- [ ] API for third-party integrations
-- [ ] Mobile-responsive design
-- [ ] Dark mode support
-- [ ] Multi-language support
+- [ ] Code snippet library
+- [ ] Project templates and scaffolding
+- [ ] API design assistance
+- [ ] Database schema generation
+- [ ] Deployment configuration generation
 
 ---
 
@@ -178,28 +194,30 @@ AuroraDocs-Web/
 ## 🗺️ Roadmap
 
 ### 🚀 **Short-term** (Q2 2024)
-- [ ] Complete backend API implementation
-- [ ] Integrate OpenAI API
-- [ ] Build frontend React application
+- [ ] Complete backend API for code generation
+- [ ] Implement AI chat interface
+- [ ] Build code editor with Monaco integration
+- [ ] Add basic code analysis features
+- [ ] Integrate OpenAI API for code generation
+- [ ] Create documentation generation module
 - [ ] Implement authentication system
-- [ ] Create documentation templates
-- [ ] Add basic generation features
 
 ### 🎯 **Mid-term** (Q3 2024)
-- [ ] GitHub/GitLab integration
-- [ ] Advanced prompt engineering
-- [ ] Real-time collaboration
-- [ ] Version control for docs
+- [ ] GitHub/GitLab repository integration
+- [ ] Advanced code refactoring suggestions
+- [ ] Multi-language code support (Python, Go, JavaScript)
+- [ ] Real-time collaboration features
+- [ ] Code snippet library and templates
 - [ ] Performance optimization
 - [ ] Mobile responsive design
 
 ### 🔮 **Long-term** (Q4 2024+)
-- [ ] Multi-language support
-- [ ] Enterprise features
-- [ ] API marketplace
-- [ ] Custom model training
+- [ ] Custom model fine-tuning
+- [ ] IDE integration (VS Code, IntelliJ)
+- [ ] Enterprise features and SSO
 - [ ] Analytics dashboard
-- [ ] Global deployment
+- [ ] API marketplace for custom integrations
+- [ ] Global deployment and scaling
 
 ---
 
@@ -254,9 +272,83 @@ http://localhost:3000
 
 ### API Endpoints
 
+#### Generate Code
+```bash
+POST /api/code/generate
+Content-Type: application/json
+
+{
+  "prompt": "Create a REST controller for user management with CRUD operations",
+  "language": "java",
+  "framework": "spring-boot",
+  "context": "User entity with id, name, email fields"
+}
+```
+
+#### Response
+```json
+{
+  "id": "code-123",
+  "generatedCode": "@RestController\n@RequestMapping('/api/users')\npublic class UserController...",
+  "language": "java",
+  "explanation": "Generated REST controller with CRUD operations...",
+  "suggestions": ["Add validation", "Implement error handling"]
+}
+```
+
+#### AI Chat Assistant
+```bash
+POST /api/chat
+Content-Type: application/json
+
+{
+  "message": "How do I implement pagination in Spring Data JPA?",
+  "context": "Spring Boot project with PostgreSQL",
+  "conversationId": "conv-456"
+}
+```
+
+#### Response
+```json
+{
+  "conversationId": "conv-456",
+  "response": "To implement pagination in Spring Data JPA...",
+  "codeSnippet": "Page<User> findAll(Pageable pageable);",
+  "relatedTopics": ["Sorting", "Filtering", "Performance"]
+}
+```
+
+#### Analyze Code
+```bash
+POST /api/analysis/analyze
+Content-Type: application/json
+
+{
+  "code": "public class UserController {...}",
+  "language": "java",
+  "analysisType": "security"
+}
+```
+
+#### Response
+```json
+{
+  "issues": [
+    {
+      "severity": "high",
+      "message": "Missing input validation",
+      "line": 15,
+      "suggestion": "Add @Valid annotation"
+    }
+  ],
+  "score": 7.5,
+  "improvements": ["Add logging", "Implement caching"]
+}
+```
+
 #### Generate Documentation
 ```bash
-POST /api/generate/documentation
+POST /api/documentation/generate
 Content-Type: application/json
 
 {
@@ -281,41 +373,19 @@ Content-Type: application/json
 }
 ```
 
-#### Get Generation History
-```bash
-GET /api/generation/history
-Authorization: Bearer <token>
-```
-
-#### Create Custom Template
-```bash
-POST /api/templates
-Content-Type: application/json
-
-{
-  "name": "custom-tech-doc",
-  "description": "Technical documentation template",
-  "sections": [
-    "Overview",
-    "Architecture",
-    "API Reference",
-    "Deployment Guide"
-  ]
-}
-```
-
 ### Frontend Usage
 
 ```typescript
-// Generate documentation from code
-import { generateDocs } from './services/api';
+// Generate code with AI
+import { generateCode } from './services/aiService';
 
-const result = await generateDocs({
-  repositoryUrl: 'https://github.com/user/project',
-  template: 'standard-readme'
+const result = await generateCode({
+  prompt: 'Create a React component for user profile',
+  language: 'typescript'
 });
 
-console.log(result.content);
+console.log(result.generatedCode);
+console.log(result.explanation);
 ```
 
 ---
