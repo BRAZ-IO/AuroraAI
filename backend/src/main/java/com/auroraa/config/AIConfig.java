@@ -8,11 +8,11 @@ import org.springframework.context.annotation.Configuration;
 public class AIConfig {
     
     private String apiKey;
-    private String model = "gpt-4";
+    private String model = "deepseek-chat";
     private double temperature = 0.7;
     private int maxTokens = 1000;
-    private String provider = "openai";
-    private String baseUrl = "https://api.openai.com/v1";
+    private String provider = "deepseek";
+    private String baseUrl = "https://api.deepseek.com/v1";
     private int timeout = 30000;
     private boolean enabled = true;
     
