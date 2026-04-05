@@ -24,6 +24,8 @@ public class ChatService implements ChatServiceInterface {
         
         // TODO: Integrar com IA quando disponível
         String response = generateMockResponse(request.getMessage());
+        String codeSnippet = generateCodeSnippet(request.getMessage());
+        List<String> relatedTopics = generateRelatedTopics(request.getMessage());
         
         ChatMessage chatMessage = new ChatMessage(
             request.getUserId(),
@@ -33,11 +35,17 @@ public class ChatService implements ChatServiceInterface {
         
         chatMessageRepository.save(chatMessage);
         
-        return new ChatResponse(
+        ChatResponse chatResponse = new ChatResponse(
             UUID.randomUUID().toString(),
             response,
             LocalDateTime.now()
         );
+        
+        chatResponse.setConversationId(request.getConversationId());
+        chatResponse.setCodeSnippet(codeSnippet);
+        chatResponse.setRelatedTopics(relatedTopics);
+        
+        return chatResponse;
     }
     
     @Override
@@ -119,8 +127,46 @@ public class ChatService implements ChatServiceInterface {
             return "Olá! Como posso ajudar você hoje?";
         } else if (message.toLowerCase().contains("ajuda")) {
             return "Estou aqui para ajudar! O que você precisa?";
+        } else if (message.toLowerCase().contains("spring") || message.toLowerCase().contains("java")) {
+            return "Posso ajudar com Spring Boot e Java! Qual sua dúvida específica?";
+        } else if (message.toLowerCase().contains("react") || message.toLowerCase().contains("frontend")) {
+            return "React é excelente para frontend! Precisa de ajuda com componentes ou hooks?";
         } else {
             return "Entendi sua mensagem. Estou processando e respondendo...";
         }
+    }
+    
+    private String generateCodeSnippet(String message) {
+        String lowerMessage = message.toLowerCase();
+        
+        if (lowerMessage.contains("pagination") || lowerMessage.contains("paginar")) {
+            return "Page<User> findAll(Pageable pageable);";
+        } else if (lowerMessage.contains("controller") || lowerMessage.contains("rest")) {
+            return "@RestController\n@RequestMapping('/api/users')\npublic class UserController {\n    // implementation\n}";
+        } else if (lowerMessage.contains("react") || lowerMessage.contains("component")) {
+            return "const MyComponent = () => {\n  return <div>Hello World</div>;\n};\nexport default MyComponent;";
+        } else if (lowerMessage.contains("database") || lowerMessage.contains("jpa")) {
+            return "@Entity\n@Table(name = \"users\")\npublic class User {\n    @Id\n    private String id;\n    // fields\n}";
+        }
+        
+        return null; // No code snippet applicable
+    }
+    
+    private List<String> generateRelatedTopics(String message) {
+        String lowerMessage = message.toLowerCase();
+        
+        if (lowerMessage.contains("pagination")) {
+            return List.of("Sorting", "Filtering", "Performance", "Database Optimization");
+        } else if (lowerMessage.contains("spring")) {
+            return List.of("Spring Boot", "Spring Data JPA", "Spring Security", "Microservices");
+        } else if (lowerMessage.contains("react")) {
+            return List.of("Components", "Hooks", "State Management", "JavaScript ES6+");
+        } else if (lowerMessage.contains("database")) {
+            return List.of("SQL", "JPA", "Hibernate", "Database Design");
+        } else if (lowerMessage.contains("api")) {
+            return List.of("REST", "HTTP Methods", "Authentication", "API Design");
+        }
+        
+        return List.of("Programming", "Development", "Best Practices", "Documentation");
     }
 }
