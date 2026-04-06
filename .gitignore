@@ -1,5 +1,15 @@
 # AuroraAI .gitignore
 
+# CRITICAL SECURITY: API KEYS AND SECRETS
+# NEVER commit API keys, secrets, or sensitive data
+*.api-key
+*api-key*
+secrets/
+.env.keys
+config/production.json
+**/config/secrets/
+**/src/config/secrets/
+
 # Scrum Management (keep private)
 README-SCRUM.md
 
