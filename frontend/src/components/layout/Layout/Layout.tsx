@@ -119,6 +119,32 @@ export const Layout: React.FC<LayoutProps> = ({
     setCursorPosition(position);
   };
 
+  const handleFileSelect = (filePath: string) => {
+    console.log('File selected:', filePath);
+    
+    // Simulate loading file content dynamically
+    const loadFileContent = async (path: string) => {
+      // Simulate file loading - in real app this would fetch from server
+      const fileExtensions: { [key: string]: string } = {
+        '.tsx': '// TypeScript React Component\n// Click to edit this file\n\nexport const Component = () => {\n  return <div>Component</div>;\n};',
+        '.ts': '// TypeScript File\n// Click to edit this file\n\nexport function main() {\n  console.log("Hello, AuroraAI!");\n}',
+        '.json': '// JSON Configuration File\n// Click to edit this file\n\n{\n  "name": "project",\n  "version": "1.0.0"\n}',
+        '.md': '// Markdown File\n# Project Documentation\n\nClick to edit this file.',
+        '.css': '/* CSS Stylesheet */\n/* Click to edit this file */\n\n.container {\n  display: flex;\n}'
+      };
+      
+      const extension = path.split('.').pop();
+      const baseContent = fileExtensions[`.${extension}`] || '// Text File\n// Click to edit this file';
+      
+      return `// File: ${path}\n// Loaded dynamically\n\n${baseContent}`;
+    };
+    
+    loadFileContent(filePath).then(content => {
+      console.log('Content loaded for:', filePath);
+      setEditorContent(content);
+    });
+  };
+
   return (
     <div className="vscode-layout">
       <Header 
@@ -140,6 +166,7 @@ export const Layout: React.FC<LayoutProps> = ({
         <Sidebar 
           isCollapsed={isSidebarCollapsed}
           onToggle={handleSidebarToggle}
+          onFileSelect={handleFileSelect}
         />
         
         <div className="vscode-content">

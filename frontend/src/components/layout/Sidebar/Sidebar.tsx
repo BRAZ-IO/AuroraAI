@@ -20,107 +20,21 @@ interface FileNode {
 interface SidebarProps {
   isCollapsed?: boolean;
   onToggle?: () => void;
+  onFileSelect?: (filePath: string) => void;
 }
 
 export type { SidebarProps };
 
 export const Sidebar: React.FC<SidebarProps> = ({ 
   isCollapsed = false,
-  onToggle
+  onToggle,
+  onFileSelect
 }) => {
   const location = useLocation();
   const [activePanel, setActivePanel] = useState<string>('explorer');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set(['src']));
-  const [fileTree, setFileTree] = useState<FileNode[]>([
-    {
-      name: 'src',
-      type: 'folder',
-      path: 'src',
-      isExpanded: expandedFolders.has('src'),
-      children: [
-        {
-          name: 'App.tsx',
-          type: 'file',
-          path: 'src/App.tsx'
-        },
-        {
-          name: 'index.tsx',
-          type: 'file',
-          path: 'src/index.tsx'
-        },
-        {
-          name: 'components',
-          type: 'folder',
-          path: 'src/components',
-          isExpanded: expandedFolders.has('src/components'),
-          children: [
-            {
-              name: 'Header.tsx',
-              type: 'file',
-              path: 'src/components/Header.tsx'
-            },
-            {
-              name: 'Layout.tsx',
-              type: 'file',
-              path: 'src/components/Layout.tsx'
-            },
-            {
-              name: 'Sidebar',
-              type: 'folder',
-              path: 'src/components/Sidebar',
-              isExpanded: expandedFolders.has('src/components/Sidebar'),
-              children: [
-                {
-                  name: 'Sidebar.tsx',
-                  type: 'file',
-                  path: 'src/components/Sidebar/Sidebar.tsx'
-                },
-                {
-                  name: 'Sidebar.css',
-                  type: 'file',
-                  path: 'src/components/Sidebar/Sidebar.css'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          name: 'pages',
-          type: 'folder',
-          path: 'src/pages',
-          isExpanded: expandedFolders.has('src/pages'),
-          children: [
-            {
-              name: 'Dashboard.tsx',
-              type: 'file',
-              path: 'src/pages/Dashboard.tsx'
-            },
-            {
-              name: 'Settings.tsx',
-              type: 'file',
-              path: 'src/pages/Settings.tsx'
-            }
-          ]
-        }
-      ]
-    },
-    {
-      name: 'package.json',
-      type: 'file',
-      path: 'package.json'
-    },
-    {
-      name: 'README.md',
-      type: 'file',
-      path: 'README.md'
-    },
-    {
-      name: 'tsconfig.json',
-      type: 'file',
-      path: 'tsconfig.json'
-    }
-  ]);
+  const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set());
+  const [fileTree, setFileTree] = useState<FileNode[]>([]);
   const [isCreatingFile, setIsCreatingFile] = useState<boolean>(false);
   const [newFileName, setNewFileName] = useState<string>('');
   const [newFilePath, setNewFilePath] = useState<string>('');
@@ -192,15 +106,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const createNewFile = () => {
     setIsCreatingFile(true);
     setNewFileName('');
-    setNewFilePath('src'); // Default to src folder
+    setNewFilePath(''); // Default to root folder
   };
 
   const handleFileCreation = () => {
     if (newFileName.trim()) {
-      const fullPath = `${newFilePath}/${newFileName}`;
+      const fullPath = newFilePath ? `${newFilePath}/${newFileName}` : newFileName;
       
       // Find the parent folder and add the new file
       const addFileToTree = (nodes: FileNode[]): FileNode[] => {
+        // If creating at root level
+        if (!newFilePath) {
+          const newFile: FileNode = {
+            name: newFileName,
+            type: 'file',
+            path: newFileName
+          };
+          return [...nodes, newFile];
+        }
+        
         return nodes.map(node => {
           if (node.path === newFilePath && node.type === 'folder') {
             const newFile: FileNode = {
@@ -434,7 +358,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div 
             className={`tree-item ${node.type === 'folder' && node.isExpanded ? 'expanded' : ''}`}
             style={{ paddingLeft: `${16 + depth * 16}px` }}
-            onClick={() => node.type === 'folder' && toggleFolder(node.path)}
+            onClick={() => {
+              if (node.type === 'folder') {
+                toggleFolder(node.path);
+              } else if (node.type === 'file' && onFileSelect) {
+                onFileSelect(node.path);
+              }
+            }}
             onContextMenu={(e) => node.type === 'file' && showContextMenu(e, node)}
           >
             <span className="tree-icon">
