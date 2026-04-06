@@ -1,0 +1,280 @@
+.ai-config-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.ai-config-modal {
+  background-color: #2d2d30;
+  border: 1px solid #3e3e42;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  color: #cccccc;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+.ai-config-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #3e3e42;
+}
+
+.ai-config-header h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #ffffff;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: #cccccc;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.close-button:hover {
+  background-color: #3e3e42;
+}
+
+.ai-config-content {
+  padding: 20px;
+}
+
+.provider-selection h4 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.providers-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.provider-card {
+  background-color: #3c3c3c;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.provider-card:hover {
+  background-color: #424242;
+  border-color: #0078d4;
+}
+
+.provider-card.selected {
+  background-color: #094771;
+  border-color: #0078d4;
+}
+
+.provider-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.provider-header h5 {
+  margin: 0;
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.free-badge {
+  background-color: #28a745;
+  color: #ffffff;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: bold;
+}
+
+.provider-card p {
+  margin: 0;
+  font-size: 12px;
+  color: #cccccc;
+  line-height: 1.4;
+}
+
+.api-key-input h4 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.api-key-field {
+  width: 100%;
+  background-color: #3c3c3c;
+  border: 1px solid #3e3e42;
+  border-radius: 4px;
+  color: #cccccc;
+  font-size: 13px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.api-key-field:focus {
+  border-color: #0078d4;
+}
+
+.api-key-help {
+  margin-bottom: 20px;
+}
+
+.api-key-help small {
+  color: #8c8c8c;
+  font-size: 11px;
+  line-height: 1.4;
+  display: block;
+}
+
+.api-key-help a {
+  color: #0078d4;
+  text-decoration: none;
+}
+
+.api-key-help a:hover {
+  text-decoration: underline;
+}
+
+.ollama-info {
+  background-color: #3c3c3c;
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.ollama-info h4 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.ollama-info p {
+  margin: 0 0 12px 0;
+  font-size: 12px;
+  color: #cccccc;
+}
+
+.installation-steps h5 {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  color: #ffffff;
+}
+
+.installation-steps ol {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 12px;
+  color: #cccccc;
+}
+
+.installation-steps li {
+  margin-bottom: 4px;
+}
+
+.installation-steps code {
+  background-color: #2a2a2a;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: 'Consolas', 'Monaco', monospace;
+  color: #569cd6;
+}
+
+.test-result {
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.test-result.success {
+  background-color: rgba(40, 167, 69, 0.2);
+  border: 1px solid #28a745;
+  color: #28a745;
+}
+
+.test-result.error {
+  background-color: rgba(220, 53, 69, 0.2);
+  border: 1px solid #dc3545;
+  color: #dc3545;
+}
+
+.config-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.cancel-button {
+  background-color: #3e3e42;
+  border: 1px solid #3e3e42;
+  border-radius: 4px;
+  color: #cccccc;
+  font-size: 13px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cancel-button:hover {
+  background-color: #4a4a4a;
+}
+
+.test-button {
+  background-color: #0078d4;
+  border: 1px solid #0078d4;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 13px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.test-button:hover:not(:disabled) {
+  background-color: #106ebe;
+}
+
+.test-button:disabled {
+  background-color: #3e3e42;
+  border-color: #3e3e42;
+  color: #666666;
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .ai-config-modal {
+    width: 95%;
+    margin: 10px;
+  }
+  
+  .ai-config-content {
+    padding: 16px;
+  }
+}

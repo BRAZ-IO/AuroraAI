@@ -1,253 +1,195 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import './Editor.css';
 
 interface EditorProps {
-  content?: string;
-  language?: string;
-  theme?: 'dark' | 'light';
-  onContentChange?: (content: string) => void;
-  onSave?: () => void;
-  readOnly?: boolean;
-  fontSize?: number;
-  wordWrap?: boolean;
+  content: string;
+  language: string;
+  theme: string;
+  onContentChange: (content: string) => void;
+  onSave: () => void;
+  fontSize: number;
+  wordWrap: boolean;
+  onSelectionChange?: (selection: string, start: number, end: number) => void;
+  onCursorChange?: (position: { line: number; column: number }) => void;
 }
 
 export const Editor: React.FC<EditorProps> = ({
-  content = '',
-  language = 'typescript',
-  theme = 'dark',
+  content,
+  language,
+  theme,
   onContentChange,
   onSave,
-  readOnly = false,
-  fontSize = 14,
-  wordWrap = true
+  fontSize,
+  wordWrap,
+  onSelectionChange,
+  onCursorChange
 }) => {
-  const [editorContent, setEditorContent] = useState<string>(content);
-  const [cursorPosition, setCursorPosition] = useState<{ line: number; column: number }>({ line: 1, column: 1 });
-  const [selectedText, setSelectedText] = useState<string>('');
+  const [lines, setLines] = useState<string[]>([]);
+  const [cursorPosition, setCursorPosition] = useState({ line: 1, column: 1 });
+  const [selectedText, setSelectedText] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const lineNumberRef = useRef<HTMLDivElement>(null);
 
-  // Calculate line numbers
-  const getLineNumbers = (text: string): string[] => {
-    const lines = text.split('\n');
-    return lines.map((_, index) => String(index + 1));
-  };
+  // Parse content into lines
+  useEffect(() => {
+    const parsedLines = content.split('\n');
+    setLines(parsedLines);
+  }, [content]);
 
-  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  // Handle content change
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newContent = e.target.value;
-    setEditorContent(newContent);
-    if (onContentChange) {
-      onContentChange(newContent);
-    }
-    updateCursorPosition();
-  };
+    onContentChange(newContent);
+    
+    // Update cursor position
+    const textarea = e.target;
+    const cursorPos = textarea.selectionStart;
+    const textBeforeCursor = newContent.substring(0, cursorPos);
+    const linesBeforeCursor = textBeforeCursor.split('\n');
+    const currentLine = linesBeforeCursor.length;
+    const currentColumn = linesBeforeCursor[linesBeforeCursor.length - 1].length + 1;
+    
+    const newPosition = { line: currentLine, column: currentColumn };
+    setCursorPosition(newPosition);
+    onCursorChange?.(newPosition);
+  }, [onContentChange, onCursorChange]);
 
-  const updateCursorPosition = () => {
-    if (textareaRef.current) {
-      const textarea = textareaRef.current;
-      const text = textarea.value.substring(0, textarea.selectionStart);
-      const lines = text.split('\n');
-      const currentLine = lines.length;
-      const currentColumn = lines[lines.length - 1].length + 1;
-      setCursorPosition({ line: currentLine, column: currentColumn });
-    }
-  };
+  // Handle selection change
+  const handleSelectionChange = useCallback(() => {
+    if (!textareaRef.current) return;
+    
+    const textarea = textareaRef.current;
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const selected = content.substring(start, end);
+    
+    setSelectedText(selected);
+    onSelectionChange?.(selected, start, end);
+  }, [content, onSelectionChange]);
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    // Handle common shortcuts
-    if (e.ctrlKey || e.metaKey) {
-      switch (e.key) {
-        case 's':
-          e.preventDefault();
-          if (onSave) onSave();
-          break;
-        case 'f':
-          e.preventDefault();
-          // Trigger search
-          break;
-        case 'g':
-          e.preventDefault();
-          // Trigger go to line
-          const lineNumber = prompt('Go to line number:');
-          if (lineNumber && !isNaN(Number(lineNumber))) {
-            goToLine(Number(lineNumber));
-          }
-          break;
-        case 'a':
-          e.preventDefault();
-          selectAll();
-          break;
-        case 'z':
-          e.preventDefault();
-          // Handle undo
-          break;
-        case 'y':
-          e.preventDefault();
-          // Handle redo
-          break;
+  // Handle keyboard shortcuts
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // Ctrl/Cmd + S: Save
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+      e.preventDefault();
+      onSave();
+    }
+    
+    // Ctrl/Cmd + A: Select All
+    if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
+      e.preventDefault();
+      if (textareaRef.current) {
+        textareaRef.current.select();
+        setSelectedText(content);
       }
     }
-
-    // Handle tab key for indentation
+    
+    // Tab: Insert spaces
     if (e.key === 'Tab') {
       e.preventDefault();
-      insertText('  '); // 2 spaces for indentation
-    }
-
-    // Handle enter key for auto-indentation
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleEnterKey();
-    }
-
-    updateCursorPosition();
-  };
-
-  const handleMouseUp = () => {
-    updateSelectedText();
-    updateCursorPosition();
-  };
-
-  const updateSelectedText = () => {
-    if (textareaRef.current) {
-      const textarea = textareaRef.current;
-      const selectedText = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
-      setSelectedText(selectedText);
-    }
-  };
-
-  const insertText = (text: string) => {
-    if (textareaRef.current) {
-      const textarea = textareaRef.current;
+      const textarea = e.target as HTMLTextAreaElement;
       const start = textarea.selectionStart;
       const end = textarea.selectionEnd;
-      const newContent = textarea.value.substring(0, start) + text + textarea.value.substring(end);
-      setEditorContent(newContent);
-      if (onContentChange) {
-        onContentChange(newContent);
-      }
+      const spaces = '  '; // 2 spaces for TypeScript
+      const newContent = content.substring(0, start) + spaces + content.substring(end);
+      onContentChange(newContent);
       
       // Restore cursor position
       setTimeout(() => {
-        textarea.selectionStart = textarea.selectionEnd = start + text.length;
-        updateCursorPosition();
+        textarea.selectionStart = textarea.selectionEnd = start + spaces.length;
       }, 0);
     }
-  };
+    
+    // Handle selection change
+    handleSelectionChange();
+  }, [onSave, content, onContentChange, handleSelectionChange]);
 
-  const handleEnterKey = () => {
-    if (textareaRef.current) {
-      const textarea = textareaRef.current;
-      const textBeforeCursor = textarea.value.substring(0, textarea.selectionStart);
-      const lines = textBeforeCursor.split('\n');
-      const currentLine = lines[lines.length - 1];
-      
-      // Auto-indentation based on current line
-      const indentation = currentLine.match(/^(\s*)/)?.[1] || '';
-      const extraIndentation = currentLine.trim().endsWith('{') ? '  ' : '';
-      
-      insertText('\n' + indentation + extraIndentation);
-    }
-  };
-
-  const goToLine = (lineNumber: number) => {
-    if (textareaRef.current) {
-      const textarea = textareaRef.current;
-      const lines = textarea.value.split('\n');
-      
-      if (lineNumber > 0 && lineNumber <= lines.length) {
-        let characterCount = 0;
-        for (let i = 0; i < lineNumber - 1; i++) {
-          characterCount += lines[i].length + 1; // +1 for newline
-        }
-        
-        textarea.focus();
-        textarea.setSelectionRange(characterCount, characterCount);
-        setCursorPosition({ line: lineNumber, column: 1 });
-        
-        // Scroll to line
-        if (lineNumberRef.current) {
-          const lineHeight = fontSize * 1.4; // Approximate line height
-          lineNumberRef.current.scrollTop = (lineNumber - 1) * lineHeight;
-        }
-      }
-    }
-  };
-
-  const selectAll = () => {
-    if (textareaRef.current) {
-      const textarea = textareaRef.current;
-      textarea.select();
-      setSelectedText(textarea.value);
-    }
-  };
+  // Handle mouse up for selection
+  const handleMouseUp = useCallback(() => {
+    handleSelectionChange();
+  }, [handleSelectionChange]);
 
   // Sync scroll between textarea and line numbers
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     if (textareaRef.current && lineNumberRef.current) {
       lineNumberRef.current.scrollTop = textareaRef.current.scrollTop;
     }
+  }, []);
+
+  // Get line numbers
+  const getLineNumbers = () => {
+    return lines.map((_, index) => index + 1).join('\n');
   };
 
-  useEffect(() => {
-    setEditorContent(content);
-  }, [content]);
-
-  const lineNumbers = getLineNumbers(editorContent);
-  const totalLines = lineNumbers.length;
-
   return (
-    <div className={`editor-container ${theme}`}>
-      {/* Line Numbers */}
-      <div className="line-numbers" ref={lineNumberRef}>
-        {lineNumbers.map((lineNumber, index) => (
-          <div 
-            key={index} 
-            className={`line-number ${cursorPosition.line === index + 1 ? 'active' : ''}`}
-          >
-            {lineNumber}
+    <div className="editor-container">
+      <div className="editor-main">
+        <div className="editor-header">
+          <div className="editor-tabs">
+            <div className="tab active">
+              <span className="tab-icon">📄</span>
+              <span className="tab-name">index.ts</span>
+              <button className="tab-close">×</button>
+            </div>
           </div>
-        ))}
-      </div>
-
-      {/* Code Editor */}
-      <div className="code-editor">
-        <textarea
-          ref={textareaRef}
-          value={editorContent}
-          onChange={handleContentChange}
-          onKeyDown={handleKeyDown}
-          onMouseUp={handleMouseUp}
-          onScroll={handleScroll}
-          className={`editor-textarea ${language}`}
-          style={{
-            fontSize: `${fontSize}px`,
-            whiteSpace: wordWrap ? 'pre-wrap' : 'pre'
-          }}
-          placeholder="Start typing your code here..."
-          readOnly={readOnly}
-          spellCheck={false}
-        />
-      </div>
-
-      {/* Status Bar */}
-      <div className="editor-status">
-        <span className="status-item">
-          Ln {cursorPosition.line}, Col {cursorPosition.column}
-        </span>
-        <span className="status-item">
-          {selectedText.length > 0 ? `${selectedText.length} selected` : ''}
-        </span>
-        <span className="status-item">
-          {totalLines} lines
-        </span>
-        <span className="status-item">
-          {language}
-        </span>
-        <span className="status-item">
-          UTF-8
-        </span>
+          <div className="editor-actions">
+            <button className="action-button" onClick={onSave} title="Save (Ctrl+S)">
+              💾 Save
+            </button>
+            <button className="action-button" title="Find (Ctrl+F)">
+              🔍 Find
+            </button>
+            <button className="action-button" title="Go to Line (Ctrl+G)">
+              ➡️ Go to Line
+            </button>
+          </div>
+        </div>
+        
+        <div className="editor-content">
+          <div className="line-numbers" ref={lineNumberRef}>
+            <pre>{getLineNumbers()}</pre>
+          </div>
+          
+          <textarea
+            ref={textareaRef}
+            value={content}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            onMouseUp={handleMouseUp}
+            onScroll={handleScroll}
+            onSelect={handleSelectionChange}
+            className="editor-textarea"
+            style={{
+              fontSize: `${fontSize}px`,
+              fontFamily: 'Consolas, Monaco, "Courier New", monospace',
+              resize: 'none',
+              overflow: 'auto',
+              whiteSpace: 'pre',
+              tabSize: 2
+            }}
+            placeholder="Start typing your code here..."
+            spellCheck={false}
+            data-gramm="false"
+          />
+        </div>
+        
+        <div className="editor-footer">
+          <div className="status-left">
+            <span className="cursor-position">
+              Line {cursorPosition.line}, Column {cursorPosition.column}
+            </span>
+            {selectedText && (
+              <span className="selection-info">
+                • {selectedText.length} characters selected
+              </span>
+            )}
+          </div>
+          <div className="status-right">
+            <span className="language">{language}</span>
+            <span className="encoding">UTF-8</span>
+            <span className="eol">LF</span>
+          </div>
+        </div>
       </div>
     </div>
   );
