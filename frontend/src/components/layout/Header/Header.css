@@ -1,0 +1,215 @@
+/* VS Code Header Styles - Ultra Autêntico */
+.vscode-header {
+  background-color: #3c3c3c;
+  border-bottom: 1px solid #3e3e42;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+/* Title Bar - VS Code Windows Style */
+.header-titlebar {
+  height: 30px;
+  background-color: #3c3c3c;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  position: relative;
+  -webkit-app-region: drag;
+}
+
+.window-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  -webkit-app-region: no-drag;
+}
+
+.window-control {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.window-control.close {
+  background-color: #ff5f57;
+}
+
+.window-control.minimize {
+  background-color: #ffbd2e;
+}
+
+.window-control.maximize {
+  background-color: #28ca42;
+}
+
+.window-control:hover {
+  opacity: 0.8;
+}
+
+.title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: #cccccc;
+  font-weight: 400;
+  pointer-events: none;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  -webkit-app-region: no-drag;
+}
+
+.header-action {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  color: #cccccc;
+  font-size: 12px;
+  transition: background-color 0.2s ease;
+}
+
+.header-action:hover {
+  background-color: #3e3e42;
+}
+
+/* Menu Bar - VS Code Style */
+.header-menubar {
+  height: 30px;
+  background-color: #3c3c3c;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  border-bottom: 1px solid #3e3e42;
+}
+
+.menu-item-container {
+  position: relative;
+}
+
+.menu-item {
+  padding: 4px 8px;
+  color: #cccccc;
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+  background: none;
+  border: none;
+  font-family: inherit;
+}
+
+.menu-item:hover {
+  background-color: #3e3e42;
+  color: #ffffff;
+}
+
+.menu-item.active {
+  background-color: #094771;
+  color: #ffffff;
+}
+
+/* Menu Dropdown - VS Code Style */
+.menu-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #3c3c3c;
+  border: 1px solid #3e3e42;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  min-width: 200px;
+  z-index: 1000;
+  padding: 4px 0;
+  margin-top: 2px;
+}
+
+.menu-dropdown-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: none;
+  border: none;
+  color: #cccccc;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+  text-align: left;
+}
+
+.menu-dropdown-item:hover {
+  background-color: #2a2d2e;
+  color: #ffffff;
+}
+
+.menu-item-label {
+  flex: 1;
+}
+
+.menu-item-shortcut {
+  font-size: 11px;
+  color: #8c8c8c;
+  margin-left: 16px;
+}
+
+.menu-separator {
+  height: 1px;
+  background-color: #3e3e42;
+  margin: 4px 12px;
+}
+
+/* macOS Style - Conditional */
+@media (platform: 'darwin') {
+  .header-titlebar {
+    -webkit-app-region: drag;
+  }
+  
+  .window-controls {
+    order: 3;
+  }
+  
+  .title {
+    position: static;
+    transform: none;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .header-actions {
+    order: 1;
+  }
+}
+
+/* Compact mode */
+.vscode-header.compact .header-titlebar {
+  height: 25px;
+}
+
+.vscode-header.compact .header-menubar {
+  height: 25px;
+}
+
+/* Focus styles */
+.menu-item:focus {
+  outline: 1px solid #0078d4;
+  outline-offset: -1px;
+}
+
+.header-action:focus {
+  outline: 1px solid #0078d4;
+  outline-offset: -1px;
+}
