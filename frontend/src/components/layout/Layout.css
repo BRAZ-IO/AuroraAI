@@ -1,35 +1,366 @@
-/* VS Code Layout Styles - Ultra Autêntico */
+/* AuroraAI Layout - Professional IDE */
 .vscode-layout {
   display: flex;
+  flex-direction: column;
   height: 100vh;
-  width: 100vw;
   background-color: #1e1e1e;
-  font-family: 'Segoe UI', 'Segoe UI Emoji', 'Segoe UI Symbol', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: #cccccc;
   overflow: hidden;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-.vscode-main {
-  flex: 1;
+/* Header - AuroraAI IDE (Top Bar 60px) */
+.vscode-header {
+  height: 60px;
+  background-color: #3c3c3c;
+  border-bottom: 1px solid #3e3e42;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  min-width: 0;
-  background-color: #1e1e1e;
-  margin-left: 0; /* Garantir que não há margem extra */
+  width: calc(100% - 300px);
+  position: absolute;
+  top: 0;
+  left: 300px;
+  right: 0;
+  z-index: 1000;
 }
 
+/* Main Container - Flex Row (Sidebar + Content) */
+.vscode-main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  height: calc(100vh - 60px);
+}
+
+/* Sidebar - AuroraAI IDE */
+.sidebar {
+  width: 300px;
+  background-color: #252526;
+  border-right: 1px solid #3e3e42;
+  flex-shrink: 0;
+  transition: width 0.1s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.sidebar.collapsed {
+  width: 48px;
+}
+
+/* Content Area - AuroraAI IDE */
 .vscode-content {
   flex: 1;
-  overflow: hidden;
-  background-color: #1e1e1e;
   display: flex;
   flex-direction: column;
+  background-color: #1e1e1e;
+  overflow: hidden;
+  height: calc(100vh - 60px);
+  margin-left: 300px;
+  margin-top: 60px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+/* Editor Container - AuroraAI IDE */
+.vscode-content .editor-container {
+  flex: 1;
+  background: #1e1e1e;
   position: relative;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+/* Header Title Bar - AuroraAI IDE (30px) */
+.header-titlebar {
+  height: 30px;
+  background-color: #3c3c3c;
+  border-bottom: 1px solid #3e3e42;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  position: relative;
+  z-index: 1001;
+  width: 100%;
+}
+
+/* Window Controls - AuroraAI IDE */
+.window-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: absolute;
+  left: 8px;
+}
+
+.window-control {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.window-control.close {
+  background-color: #ff5f57;
+}
+
+.window-control.minimize {
+  background-color: #ffbd2e;
+}
+
+.window-control.maximize {
+  background-color: #28ca42;
+}
+
+.window-control:hover {
+  opacity: 0.8;
+}
+
+/* Title - AuroraAI IDE - Centralizado */
+.title {
+  font-size: 12px;
+  color: #cccccc;
+  font-weight: 400;
+  pointer-events: none;
+  margin: 0 auto;
+}
+
+/* Header Actions - AuroraAI IDE */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: absolute;
+  right: 8px;
+}
+
+.header-action {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  color: #cccccc;
+  font-size: 12px;
+  transition: background-color 0.2s ease;
+}
+
+.header-action:hover {
+  background-color: #3e3e42;
+}
+
+/* Menu Bar - AuroraAI IDE (30px) - Centralizado */
+.header-menubar {
+  height: 30px;
+  background-color: #3c3c3c;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  border-bottom: 1px solid #3e3e42;
+  width: 100%;
+  justify-content: center;
+}
+
+.menu-item-container {
+  position: relative;
+}
+
+.menu-item {
+  padding: 4px 8px;
+  color: #cccccc;
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+  background: none;
+  border: none;
+  font-family: inherit;
+}
+
+.menu-item:hover {
+  background-color: #3e3e42;
+  color: #ffffff;
+}
+
+.menu-item.active {
+  background-color: #094771;
+  color: #ffffff;
+}
+
+/* Menu Dropdown - AuroraAI IDE */
+.menu-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #3c3c3c;
+  border: 1px solid #3e3e42;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  min-width: 200px;
+  z-index: 1000;
+  padding: 4px 0;
+  margin-top: 2px;
+}
+
+.menu-dropdown-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: none;
+  border: none;
+  color: #cccccc;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+  text-align: left;
+}
+
+.menu-dropdown-item:hover {
+  background-color: #2a2d2e;
+  color: #ffffff;
+}
+
+.menu-item-label {
+  flex: 1;
+}
+
+.menu-item-shortcut {
+  font-size: 11px;
+  color: #8c8c8c;
+  margin-left: 16px;
+}
+
+.menu-separator {
+  height: 1px;
+  background-color: #3e3e42;
+  margin: 4px 12px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 250px;
+  }
+  
+  .sidebar.collapsed {
+    width: 40px;
+  }
+}
+
+/* Focus Management */
+.vscode-layout:focus-within {
+  outline: none;
+}
+
+/* Animation and Transitions */
+.sidebar {
+  transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Loading States */
+.vscode-layout.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Error States */
+.vscode-layout.error {
+  background-color: #2d1f1f;
+}
+
+/* Success States */
+.vscode-layout.success {
+  background-color: #1e1e1e;
+}
+
+/* Compact Mode */
+.vscode-layout.compact .sidebar {
+  width: 240px;
+}
+
+.vscode-layout.compact .sidebar.collapsed {
+  width: 36px;
+}
+
+/* Accessibility */
+.vscode-layout:focus-visible {
+  outline: 2px solid #0078d4;
+  outline-offset: -2px;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .vscode-layout {
+    background-color: #000000;
+    color: #ffffff;
+  }
+  
+  .vscode-header {
+    background-color: #0c0c0c;
+    border-bottom-color: #ffffff;
+  }
+  
+  .sidebar {
+    background-color: #0c0c0c;
+    border-color: #ffffff;
+  }
+  
+  .vscode-content {
+    background-color: #000000;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .sidebar {
+    transition: none;
+  }
+  
+  .vscode-content {
+    transition: none;
+  }
+}
+
+/* Scrollbar VS Code exact */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #424242;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4f4f4f;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 /* Reset global styles - VS Code style */
@@ -78,13 +409,6 @@ a {
   color: inherit;
   text-decoration: none;
 }
-
-/* Scrollbar VS Code exact */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
 ::-webkit-scrollbar-track {
   background: transparent;
 }
